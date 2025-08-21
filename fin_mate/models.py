@@ -125,7 +125,7 @@ class Budget(models.Model):
         return f"{self.category.name} • {self.month:%Y-%m} • {self.limit}"
 
     class Meta:
-        ordering = ["-month", "category_name"]
+        ordering = ["-month", "category__name"]
         constraints = [
             models.UniqueConstraint(
                 fields=["user", "category", "month"],
@@ -161,3 +161,5 @@ class Budget(models.Model):
         if not self.limit:
             return 0.0
         return float(self.spent_amount / self.limit * 100)
+
+
