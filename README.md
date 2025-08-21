@@ -17,6 +17,16 @@ Dashboard – view your balance, monthly spending, and top categories with chart
 
 Filtering & search – easily find transactions by type, date, or category.
 
+✨ Optional Features
+
+Export to CSV/PDF – download expense reports in a convenient format for sharing or archiving.
+
+REST API (DRF) – programmatic access to transactions and budgets, useful for integrations with mobile apps or third-party tools.
+
+PWA Support – install the app on mobile/desktop and use it like a native application.
+
+AI-powered Insights – the system can analyze spending habits and suggest improvements, detect unusual expenses, or forecast next month’s budget. Initially rule-based, later expandable with ML/LLM for smarter recommendations.
+
 🏗 Tech Stack
 
 Backend: Django, Django ORM
