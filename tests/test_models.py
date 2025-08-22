@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from fin_mate.models import Transaction, Account, Category
+
+from fin_mate.models import Account, Category, Transaction
 
 
 class TransactionModelTest(TestCase):
