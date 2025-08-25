@@ -5,7 +5,7 @@ from .models import Tag, Transaction, TransactionTag
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ("name", "user", "color")
+    list_display = ("name", "user")
     list_filter = ("user",)
     search_fields = ("name",)
 

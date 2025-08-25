@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3">Transaction #{{ transaction.id }}</h1>
+    <div class="btn-group">
+      <a class="btn btn-outline-secondary btn-sm" href="{% url 'fin_mate:transaction-update' transaction.pk %}">Edit</a>
+      <a class="btn btn-outline-danger btn-sm" href="{% url 'fin_mate:transaction-delete' transaction.pk %}">Delete</a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-3"><strong>Date:</strong> {{ transaction.date|date:"Y-m-d" }}</div>
+        <div class="col-md-3"><strong>Type:</strong> {{ transaction.get_type_display }}</div>
+        <div class="col-md-3"><strong>Amount:</strong> {{ transaction.amount }}</div>
+        <div class="col-md-3"><strong>Account:</strong> {{ transaction.account.name }}</div>
+        <div class="col-md-3"><strong>Category:</strong> {{ transaction.category.name }}</div>
+        <div class="col-md-9"><strong>Description:</strong> {{ transaction.description|default:"—" }}</div>
+        <div class="col-12"><strong>Tags:</strong>
+          {% for t in transaction.transactiontag_set.all %}
+            <span class="badge text-bg-{{ t.color|default:'secondary' }}">{{ t.tag.name }}</span>
+          {% empty %}
+            <span class="text-muted">—</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

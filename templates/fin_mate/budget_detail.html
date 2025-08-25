@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3">Budget • {{ budget.category.name }} • {{ budget.period|date:"Y-m" }}</h1>
+    <div class="btn-group">
+      <a class="btn btn-outline-secondary btn-sm" href="{% url 'fin_mate:budget-update' budget.pk %}">Edit</a>
+      <a class="btn btn-outline-danger btn-sm" href="{% url 'fin_mate:budget-delete' budget.pk %}">Delete</a>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-3"><strong>Limit:</strong> {{ budget.limit }}</div>
+        <div class="col-md-3"><strong>Spent:</strong> {{ budget.spent_amount }}</div>
+        <div class="col-md-6">
+          <strong>Progress:</strong>
+          {% with p=budget.progress|floatformat:0 %}
+            <div class="progress" role="progressbar" aria-valuenow="{{ p }}" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar {% if p|add:'0' > 100 %}bg-danger{% else %}bg-success{% endif %}"
+                   style="width: {{ p }}%">{{ p }}%</div>
+            </div>
+          {% endwith %}
+        </div>
+        <div class="col-12"><strong>Notes:</strong> {{ budget.notes|default:"—" }}</div>
+      </div>
+    </div>
+  </div>
+
+  <a class="btn btn-primary"
+     href="{% url 'fin_mate:transaction-create' %}?category={{ budget.category.pk }}&date={{ budget.period|date:'Y-m-d' }}">
+    Add expense for this budget
+  </a>
+{% endblock %}

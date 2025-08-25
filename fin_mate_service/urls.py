@@ -25,7 +25,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("", include("fin_mate.urls", namespace="fin_mate")),
-    path("", RedirectView.as_view(pattern_name="fin_mate:dashboard", permanent=False)),
 ]
 
 if settings.DEBUG:

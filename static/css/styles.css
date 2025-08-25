@@ -1,0 +1,23 @@
+.checkbox-grid .form-check {
+    width: 50%;
+    float: left;
+}
+
+.list-hover .list-group-item {
+    transition: background-color .15s, box-shadow .15s;
+}
+
+.list-hover .list-group-item:hover {
+    background-color: greenyellow;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
+}
+
+.chevron {
+    opacity: .35;
+    transition: transform .15s, opacity .15s;
+}
+
+.list-group-item:hover .chevron {
+    opacity: .7;
+    transform: translateX(2px);
+}

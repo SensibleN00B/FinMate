@@ -16,7 +16,7 @@ def get_account_balance(account_id: int) -> Decimal:
     balance = (
         Account.objects.with_balance()
         .filter(pk=account_id)
-        .values_list("balance", flat=True)
+        .values_list("annotated_balance", flat=True)
         .first()
     ) or Decimal("0.00")
     cache.set(key, balance, BALANCE_CACHE_TIME)

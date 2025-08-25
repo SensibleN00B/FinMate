@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3">Tags</h1>
+    <a class="btn btn-primary btn-sm" href="{% url 'fin_mate:tag-create' %}">New tag</a>
+  </div>
+  <ul class="list-group">
+    {% for t in tags %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        <a href="{% url 'fin_mate:tag-detail' t.pk %}">{{ t.name }}</a>
+        <span class="badge text-bg-secondary">{{ t.transactions.count }} tx</span>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No tags yet.</li>
+    {% endfor %}
+  </ul>
+  {% include "includes/pagination.html" %}
+{% endblock %}

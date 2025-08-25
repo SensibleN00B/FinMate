@@ -45,7 +45,7 @@ class Transaction(models.Model):
         on_delete=models.CASCADE,
         related_name="transactions",
     )
-    date = models.DateTimeField(default=timezone.now, db_index=True)
+    date = models.DateField(default=timezone.localdate, db_index=True)
     description = models.TextField(blank=True)
     tags = models.ManyToManyField(
         "Tag", through="TransactionTag", related_name="transactions", blank=True
@@ -73,22 +73,21 @@ class Transaction(models.Model):
 
 class AccountQuerySet(models.QuerySet):
     def with_balance(self):
+        signed = Case(
+            When(
+                transactions__type=Transaction.TransactionType.INCOME,
+                then=F("transactions__amount"),
+            ),
+            When(
+                transactions__type=Transaction.TransactionType.EXPENSE,
+                then=-F("transactions__amount"),
+            ),
+            default=Value(0),
+            output_field=DecimalField(max_digits=12, decimal_places=2),
+        )
         return self.annotate(
-            balance=Coalesce(
-                Sum(
-                    Case(
-                        When(
-                            transactions__type=Transaction.TransactionType.INCOME,
-                            then=F("transactions__amount"),
-                        ),
-                        When(
-                            transactions__type=Transaction.TransactionType.EXPENSE,
-                            then=-F("transactions__amount"),
-                        ),
-                        default=0,
-                        output_field=DecimalField(max_digits=12, decimal_places=2),
-                    )
-                ),
+            annotated_balance=Coalesce(
+                Sum(signed),
                 Value(0),
                 output_field=DecimalField(max_digits=12, decimal_places=2),
             )
@@ -195,24 +194,8 @@ class Budget(models.Model):
 
 
 class Tag(models.Model):
-    class Color(models.TextChoices):
-        PRIMARY = "primary", "Blue"
-        SECONDARY = "secondary", "Gray"
-        SUCCESS = "success", "Green"
-        DANGER = "danger", "Red"
-        WARNING = "warning", "Yellow"
-        INFO = "info", "Cyan"
-        DARK = "dark", "Dark"
-        LIGHT = "light", "Light"
-
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=32)
-    color = models.CharField(
-        max_length=10,
-        choices=Color.choices,
-        default=Color.PRIMARY,
-        blank=True,
-    )
 
     class Meta:
         constraints = [
@@ -228,6 +211,22 @@ class Tag(models.Model):
 
 
 class TransactionTag(models.Model):
+    class Color(models.TextChoices):
+        PRIMARY = "primary", "Blue"
+        SECONDARY = "secondary", "Gray"
+        SUCCESS = "success", "Green"
+        DANGER = "danger", "Red"
+        WARNING = "warning", "Yellow"
+        INFO = "info", "Cyan"
+        DARK = "dark", "Dark"
+        LIGHT = "light", "Light"
+
+    color = models.CharField(
+        max_length=10,
+        choices=Color.choices,
+        default=Color.PRIMARY,
+        blank=True,
+    )
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
