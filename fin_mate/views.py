@@ -9,11 +9,16 @@ from django.db.models import DecimalField, Prefetch, Sum, Value
 from django.db.models.functions import Coalesce
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  TemplateView, UpdateView)
+from django.views.generic import (
+    CreateView,
+    DeleteView,
+    DetailView,
+    ListView,
+    TemplateView,
+    UpdateView,
+)
 
-from .forms import (AccountForm, BudgetForm, CategoryForm, TagForm,
-                    TransactionForm)
+from .forms import AccountForm, BudgetForm, CategoryForm, TagForm, TransactionForm
 from .models import Account, Budget, Category, Tag, Transaction, TransactionTag
 
 

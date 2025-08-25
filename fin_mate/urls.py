@@ -1,17 +1,33 @@
 from django.urls import path
 
-from fin_mate.views import (AccountCreateView, AccountDeleteView,
-                            AccountDetailView, AccountListView,
-                            AccountUpdateView, BudgetCreateView,
-                            BudgetDeleteView, BudgetDetailView, BudgetListView,
-                            BudgetUpdateView, CategoryCreateView,
-                            CategoryDeleteView, CategoryDetailView,
-                            CategoryListView, CategoryUpdateView,
-                            DashboardView, TagCreateView, TagDeleteView,
-                            TagDetailView, TagListView, TagUpdateView,
-                            TransactionCreateView, TransactionDeleteView,
-                            TransactionDetailView, TransactionListView,
-                            TransactionUpdateView)
+from fin_mate.views import (
+    AccountCreateView,
+    AccountDeleteView,
+    AccountDetailView,
+    AccountListView,
+    AccountUpdateView,
+    BudgetCreateView,
+    BudgetDeleteView,
+    BudgetDetailView,
+    BudgetListView,
+    BudgetUpdateView,
+    CategoryCreateView,
+    CategoryDeleteView,
+    CategoryDetailView,
+    CategoryListView,
+    CategoryUpdateView,
+    DashboardView,
+    TagCreateView,
+    TagDeleteView,
+    TagDetailView,
+    TagListView,
+    TagUpdateView,
+    TransactionCreateView,
+    TransactionDeleteView,
+    TransactionDetailView,
+    TransactionListView,
+    TransactionUpdateView,
+)
 
 app_name = "fin_mate"
 
