@@ -495,9 +495,16 @@ class BudgetCopyView(LoginRequiredMixin, View):
 
         created = len(to_create)
         if created:
-            messages.success(request, f"Скопійовано {created} бюджет(и) з {prev:%Y-%m} у {target:%Y-%m}.")
+            messages.success(
+                request,
+                f"Copied {created} budget(s) from {prev:%Y-%m} to {target:%Y-%m}."
+            )
         else:
-            messages.info(request, f"Нема що копіювати або все вже існує за {target:%Y-%m}.")
+            messages.info(
+                request,
+                f"Nothing to copy, or budgets already exist for {target:%Y-%m}."
+            )
+
         return redirect(f"{reverse('fin_mate:budget-list')}?period={target:%Y-%m}")
 
 
@@ -531,12 +538,35 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         month_tx = Transaction.objects.filter(
             account__user=user, date__gte=start, date__lt=end
         )
-        income = month_tx.filter(type=Transaction.TransactionType.INCOME).aggregate(
-            total=Sum("amount")
-        )["total"] or Decimal("0")
-        expenses = month_tx.filter(type=Transaction.TransactionType.EXPENSE).aggregate(
-            total=Sum("amount")
-        )["total"] or Decimal("0")
+
+        currencies = {(a.currency or "").upper() for a in accounts_qs if a.currency}
+        currencies |= {
+            (row["account__currency"] or settings.FX_BASE_CURRENCY).upper()
+            for row in month_tx.values("account__currency").distinct()
+        }
+        rates = get_rates(currencies)
+
+        base_total = Decimal("0")
+        acc_labels, acc_values_base = [], []
+        for a in accounts_qs:
+            amount = getattr(a, "annotated_balance", Decimal("0")) or Decimal("0")
+            code = (a.currency or settings.FX_BASE_CURRENCY).upper()
+            rate = rates.get(code, Decimal("1"))
+            v_base = (amount * rate).quantize(Decimal("0.01"))
+            base_total += v_base
+            acc_labels.append(a.name)
+            acc_values_base.append(float(v_base))
+
+        def sum_in_base(qs) -> Decimal:
+            total = Decimal("0")
+            for row in qs.values("account__currency").annotate(total=Sum("amount")):
+                code = (row["account__currency"] or settings.FX_BASE_CURRENCY).upper()
+                rate = rates.get(code, Decimal("1"))
+                total += (row["total"] * rate).quantize(Decimal("0.01"))
+            return total
+
+        income = sum_in_base(month_tx.filter(type=Transaction.TransactionType.INCOME))
+        expenses = sum_in_base(month_tx.filter(type=Transaction.TransactionType.EXPENSE))
         net = income - expenses
 
         top_cats_qs = (
@@ -578,20 +608,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             .filter(account__user=user)
             .order_by("-date", "-pk")[:10]
         )
-
-        currencies = {(a.currency or "").upper() for a in accounts_qs if a.currency}
-        rates = get_rates(currencies)
-
-        base_total = Decimal("0")
-        acc_labels, acc_values_base = [], []
-        for a in accounts_qs:
-            amount = getattr(a, "annotated_balance", Decimal("0")) or Decimal("0")
-            code = (a.currency or settings.FX_BASE_CURRENCY).upper()
-            rate = rates.get(code, Decimal("1"))
-            v_base = (amount * rate).quantize(Decimal("0.01"))
-            base_total += v_base
-            acc_labels.append(a.name)
-            acc_values_base.append(float(v_base))
 
         context.update({
             "period": selected,
