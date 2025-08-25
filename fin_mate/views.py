@@ -1,14 +1,18 @@
 from datetime import date
 from decimal import Decimal
+from calendar import monthrange
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
 from django.db import transaction as db_transaction
 from django.db.models import DecimalField, Prefetch, Sum, Value
 from django.db.models.functions import Coalesce
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
+from django.views import View
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -20,6 +24,16 @@ from django.views.generic import (
 
 from .forms import AccountForm, BudgetForm, CategoryForm, TagForm, TransactionForm
 from .models import Account, Budget, Category, Tag, Transaction, TransactionTag
+from .services.fx import get_rates
+
+
+def _first_day(dt: date) -> date:
+    return dt.replace(day=1)
+
+
+def _prev_month(first_day: date) -> date:
+    return first_day.replace(year=first_day.year - 1, month=12) if first_day.month == 1 \
+        else first_day.replace(month=first_day.month - 1)
 
 
 class UserOwnedQuerysetMixin(LoginRequiredMixin):
@@ -362,14 +376,27 @@ class BudgetListView(LoginRequiredMixin, ListView):
             .filter(user=self.request.user)
             .order_by("-period", "category__name")
         )
+        self._selected = None
         period = self.request.GET.get("period")
         if period:
             try:
-                year, month = map(int, period.split("-")[:2])
-                qs = qs.filter(period__year=year, period__month=month)
+                y, m = map(int, period.split("-")[:2])
+                self._selected = date(y, m, 1)
+                qs = qs.filter(period__year=y, period__month=m)
             except Exception:
                 pass
         return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        selected = self._selected or _first_day(timezone.localdate())
+        prev = _prev_month(selected)
+
+        context["period"] = selected
+        context["period_str"] = selected.strftime("%Y-%m")
+        context["prev_period_str"] = prev.strftime("%Y-%m")
+        context["has_budgets"] = context["paginator"].count > 0 if "paginator" in context else False
+        return context
 
 
 class BudgetDetailView(LoginRequiredMixin, DetailView):
@@ -444,16 +471,44 @@ class BudgetDeleteView(LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
+class BudgetCopyView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        period_param = request.POST.get("period")
+        target = _first_day(timezone.localdate())
+        if period_param:
+            try:
+                y, m = map(int, period_param.split("-")[:2])
+                target = date(y, m, 1)
+            except Exception:
+                pass
+        prev = _prev_month(target)
+
+        prev_qs = (Budget.objects
+                   .filter(user=request.user, period__year=prev.year, period__month=prev.month)
+                   .select_related("category"))
+        existing = set(Budget.objects
+                       .filter(user=request.user, period__year=target.year, period__month=target.month)
+                       .values_list("category_id", flat=True))
+        to_create = [Budget(user=request.user, category=b.category, limit=b.limit, period=target, notes=b.notes)
+                     for b in prev_qs if b.category_id not in existing]
+        Budget.objects.bulk_create(to_create, ignore_conflicts=True)
+
+        created = len(to_create)
+        if created:
+            messages.success(request, f"Скопійовано {created} бюджет(и) з {prev:%Y-%m} у {target:%Y-%m}.")
+        else:
+            messages.info(request, f"Нема що копіювати або все вже існує за {target:%Y-%m}.")
+        return redirect(f"{reverse('fin_mate:budget-list')}?period={target:%Y-%m}")
+
+
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = "fin_mate/dashboard.html"
 
     @staticmethod
     def _month_range(dt: date) -> tuple[date, date]:
         start = dt.replace(day=1)
-        if start.month == 12:
-            end = start.replace(year=start.year + 1, month=1)
-        else:
-            end = start.replace(month=start.month + 1)
+        end = start.replace(year=start.year + 1, month=1) if start.month == 12 \
+            else start.replace(month=start.month + 1)
         return start, end
 
     def get_context_data(self, **kwargs):
@@ -472,13 +527,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         start, end = self._month_range(selected)
 
         accounts_qs = Account.objects.with_balance().filter(user=user).order_by("name")
-        total_balance = accounts_qs.aggregate(
-            total=Coalesce(
-                Sum("annotated_balance"),
-                Value(0),
-                output_field=DecimalField(max_digits=12, decimal_places=2),
-            )
-        )["total"] or Decimal("0")
 
         month_tx = Transaction.objects.filter(
             account__user=user, date__gte=start, date__lt=end
@@ -502,9 +550,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             {
                 "name": row["category__name"] or "—",
                 "total": row["total"],
-                "percent": (
-                    float((row["total"] / total_exp) * 100) if total_exp else 0.0
-                ),
+                "percent": float((row["total"] / total_exp) * 100) if total_exp else 0.0,
             }
             for row in top_cats_qs
         ]
@@ -514,7 +560,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             .filter(user=user, period__year=start.year, period__month=start.month)
             .order_by("category__name")
         )
-
         spends_map = {
             row["category_id"]: row["total"]
             for row in month_tx.filter(type=Transaction.TransactionType.EXPENSE)
@@ -524,8 +569,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         budgets = []
         for b in budgets_qs:
             spent = spends_map.get(b.category_id, Decimal("0"))
-            limit = b.limit or Decimal("0.01")
-            progress = float((spent / limit) * 100) if limit else 0.0
+            limit = b.limit or Decimal("0")
+            progress = float((spent / (limit or Decimal("0.01"))) * 100) if limit else 0.0
             budgets.append({"obj": b, "spent": spent, "progress": progress})
 
         recent = (
@@ -534,18 +579,39 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             .order_by("-date", "-pk")[:10]
         )
 
-        context.update(
-            {
-                "period": selected,
-                "period_str": selected.strftime("%Y-%m"),
-                "accounts": accounts_qs,
-                "total_balance": total_balance,
-                "income": income,
-                "expenses": expenses,
-                "net": net,
-                "top_categories": top_categories,
-                "budgets": budgets,
-                "recent": recent,
-            }
-        )
+        currencies = {(a.currency or "").upper() for a in accounts_qs if a.currency}
+        rates = get_rates(currencies)
+
+        base_total = Decimal("0")
+        acc_labels, acc_values_base = [], []
+        for a in accounts_qs:
+            amount = getattr(a, "annotated_balance", Decimal("0")) or Decimal("0")
+            code = (a.currency or settings.FX_BASE_CURRENCY).upper()
+            rate = rates.get(code, Decimal("1"))
+            v_base = (amount * rate).quantize(Decimal("0.01"))
+            base_total += v_base
+            acc_labels.append(a.name)
+            acc_values_base.append(float(v_base))
+
+        context.update({
+            "period": selected,
+            "period_str": selected.strftime("%Y-%m"),
+
+            "accounts": accounts_qs,
+            "base_currency": settings.FX_BASE_CURRENCY,
+            "total_balance": base_total,
+
+            "accounts_chart": {
+                "labels": acc_labels,
+                "values": acc_values_base,
+                "total": float(base_total),
+            },
+
+            "income": income,
+            "expenses": expenses,
+            "net": net,
+            "top_categories": top_categories,
+            "budgets": budgets,
+            "recent": recent,
+        })
         return context

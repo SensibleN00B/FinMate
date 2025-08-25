@@ -77,14 +77,17 @@ class TransactionForm(forms.ModelForm):
 class TagForm(forms.ModelForm):
     class Meta:
         model = Tag
-        fields = ["name"]
+        fields = ["name", "color"]
         widgets = {
             "name": forms.TextInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "e.g., Travel / Repair / Car",
                 }
-            )
+            ),
+            "color": forms.Select(
+                attrs={"class": "form-select"}
+            ),
         }
 
 

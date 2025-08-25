@@ -4,15 +4,27 @@
     <h1 class="h3">Tags</h1>
     <a class="btn btn-primary btn-sm" href="{% url 'fin_mate:tag-create' %}">New tag</a>
   </div>
-  <ul class="list-group">
+
+  <ul class="list-group list-hover">
     {% for t in tags %}
-      <li class="list-group-item d-flex justify-content-between align-items-center">
-        <a href="{% url 'fin_mate:tag-detail' t.pk %}">{{ t.name }}</a>
-        <span class="badge text-bg-secondary">{{ t.transactions.count }} tx</span>
+      <li class="list-group-item d-flex align-items-center justify-content-between">
+        <div class="d-flex align-items-center gap-2">
+          <span class="color-dot bg-{{ t.color|default:'secondary' }}" aria-hidden="true"></span>
+          <div class="fw-semibold">{{ t.name }}</div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge text-bg-secondary">{{ t.transactions.count }} tx</span>
+          <div class="btn-group">
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'fin_mate:tag-update' t.pk %}">Edit</a>
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'fin_mate:tag-delete' t.pk %}">Delete</a>
+          </div>
+        </div>
       </li>
     {% empty %}
-      <li class="list-group-item">No tags yet.</li>
+      <li class="list-group-item text-muted">No tags yet.</li>
     {% endfor %}
   </ul>
+
   {% include "includes/pagination.html" %}
 {% endblock %}

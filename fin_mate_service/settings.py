@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
+from decimal import Decimal
 from pathlib import Path
 
 import environ
@@ -220,4 +220,14 @@ CACHES = {
         "LOCATION": "finmate-cache",
         "TIMEOUT": 600,
     }
+}
+
+FX_BASE_CURRENCY = "UAH"
+FX_CACHE_SECONDS = 60 * 60 * 12
+
+CURRENCY_RATES = {
+    "UAH": Decimal("1"),
+    "USD": Decimal("41.20"),
+    "EUR": Decimal("45.00"),
+    "PLN": Decimal("10.50"),
 }

@@ -32,8 +32,10 @@
           <td>{{ tx.account.name }}</td>
           <td>{{ tx.category.name }}</td>
           <td>
-            {% for t in tx.transactiontag_set.all %}
-              <span class="badge text-bg-{{ t.color|default:'secondary' }}">{{ t.tag.name }}</span>
+            {% for tt in tx.transactiontag_set.all %}
+              <span class="badge text-bg-{{ tt.color|default:tt.tag.color|default:'secondary' }}">
+                {{ tt.tag.name }}
+              </span>
             {% empty %}
               <span class="text-muted">—</span>
             {% endfor %}

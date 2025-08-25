@@ -194,23 +194,6 @@ class Budget(models.Model):
 
 
 class Tag(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    name = models.CharField(max_length=32)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["user", "name"],
-                name="uniq_tag_name_per_user",
-            )
-        ]
-        ordering = ["name"]
-
-    def __str__(self):
-        return self.name
-
-
-class TransactionTag(models.Model):
     class Color(models.TextChoices):
         PRIMARY = "primary", "Blue"
         SECONDARY = "secondary", "Gray"
@@ -221,12 +204,26 @@ class TransactionTag(models.Model):
         DARK = "dark", "Dark"
         LIGHT = "light", "Light"
 
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=32)
     color = models.CharField(
         max_length=10,
         choices=Color.choices,
-        default=Color.PRIMARY,
+        default=Color.SECONDARY,
         blank=True,
     )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["user", "name"], name="uniq_tag_name_per_user")
+        ]
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+class TransactionTag(models.Model):
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

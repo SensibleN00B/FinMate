@@ -26,7 +26,7 @@ from fin_mate.views import (
     TransactionDeleteView,
     TransactionDetailView,
     TransactionListView,
-    TransactionUpdateView,
+    TransactionUpdateView, BudgetCopyView,
 )
 
 app_name = "fin_mate"
@@ -86,4 +86,5 @@ urlpatterns = [
     path("budgets/<int:pk>/", BudgetDetailView.as_view(), name="budget-detail"),
     path("budgets/<int:pk>/update/", BudgetUpdateView.as_view(), name="budget-update"),
     path("budgets/<int:pk>/delete/", BudgetDeleteView.as_view(), name="budget-delete"),
+    path("budgets/copy/", BudgetCopyView.as_view(), name="budget-copy"),
 ]
