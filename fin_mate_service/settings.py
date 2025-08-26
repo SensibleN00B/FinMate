@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "accounts",
     "fin_mate.apps.FinMateConfig",
+    "accounts",
     "debug_toolbar",
     "django.contrib.sites",
     "allauth",
@@ -68,11 +68,6 @@ MIDDLEWARE = [
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
-        # "APP": {
-        #     "client_id": env("GOOGLE_CLIENT_ID"),
-        #     "secret": env("GOOGLE_CLIENT_SECRET"),
-        #     "key": "",
-        # },
         "SCOPE": ["openid", "email", "profile"],
         "AUTH_PARAMS": {"access_type": "offline", "prompt": "consent"},
     }
@@ -99,6 +94,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
+            "debug": True,
         },
     },
 ]
