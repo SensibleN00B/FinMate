@@ -195,9 +195,7 @@ ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*", "username"]
 
 SITE_ID = int(os.getenv("SITE_ID", "1"))
 
-ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http" if DEBUG else "https"
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "[FinMate] "
 
@@ -215,10 +213,10 @@ LOGIN_REDIRECT_URL = os.getenv("LOGIN_REDIRECT_URL", "/")
 LOGOUT_REDIRECT_URL = os.getenv("LOGOUT_REDIRECT_URL", "/")
 
 CSRF_TRUSTED_ORIGINS = [
-    f"http://{h}" for h in ALLOWED_HOSTS if h and h not in {"127.0.0.1", "localhost"}
-] + [
-    f"https://{h}" for h in ALLOWED_HOSTS if h and h not in {"127.0.0.1", "localhost"}
-]
+                           f"http://{h}" for h in ALLOWED_HOSTS if h and h not in {"127.0.0.1", "localhost"}
+                       ] + [
+                           f"https://{h}" for h in ALLOWED_HOSTS if h and h not in {"127.0.0.1", "localhost"}
+                       ]
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

@@ -284,7 +284,7 @@
           if (!ac.labels || !ac.labels.length) return;
 
           const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-          const textColor = css('--bs-body-color') || '#e2e8f0';
+          const textColor = css('--bs-body-color') || '#0a3a75';
           const gridColor = css('--bs-border-color') || '#e2e8f0';
           const onBarColor = '#f8fafc';
 
@@ -334,7 +334,7 @@
                   indexAxis: 'y',
                   maintainAspectRatio: false,
                   plugins: {
-                      legend: {display: false},
+                      legend: {display: false,},
                       tooltip: {
                           backgroundColor: 'rgba(0,0,0,.85)',
                           borderColor: gridColor, borderWidth: 1, padding: 10,
