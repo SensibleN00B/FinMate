@@ -211,8 +211,9 @@
     </div>
 
   </div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
   {{ top_categories|json_script:"top-cats-data" }}
   <script>
       (function () {
@@ -275,48 +276,96 @@
 
   {{ accounts_chart|json_script:"accounts-chart-data" }}
   <script>
-      (function () {
-          const ac = JSON.parse(document.getElementById("accounts-chart-data").textContent || "{}");
-          const el = document.getElementById('chart_accounts');
-          if (!el || !ac.labels || !ac.labels.length) return;
+      (() => {
+          const dataEl = document.getElementById("accounts-chart-data");
+          const host = document.getElementById("chart_accounts");
+          if (!host || !dataEl) return;
+          const ac = JSON.parse(dataEl.textContent || "{}");
+          if (!ac.labels || !ac.labels.length) return;
 
-          if (window.ChartDataLabels) {
-              Chart.register(ChartDataLabels);
-          }
-          const nf = new Intl.NumberFormat(undefined, {maximumFractionDigits: 2});
+          const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+          const textColor = css('--bs-body-color') || '#e2e8f0';
+          const gridColor = css('--bs-border-color') || '#e2e8f0';
+          const onBarColor = '#f8fafc';
 
-          new Chart(el, {
+          const makePalette = (n, startHue = 210) =>
+              Array.from({length: n}, (_, i) => {
+                  const h = (startHue + (360 / n) * i) % 360;
+                  return {bg: `hsl(${h} 70% 52% / .75)`, br: `hsl(${h} 70% 45% / 1)`};
+              });
+          const pal = makePalette(ac.values.length);
+
+          const percentLabel = {
+              id: 'percentLabel',
+              afterDatasetsDraw(chart) {
+                  const {ctx} = chart, ds = chart.data.datasets[0], meta = chart.getDatasetMeta(0);
+                  const sum = ds.data.reduce((a, b) => a + b, 0) || 1;
+                  ctx.save();
+                  ctx.fillStyle = textColor;
+                  ctx.font = '12px system-ui,Segoe UI,Roboto,Inter,sans-serif';
+                  meta.data.forEach((bar, i) => {
+                      const v = ds.data[i], pct = Math.round(v / sum * 100);
+                      const {x, y, base} = bar.getProps(['x', 'y', 'base'], true);
+                      ctx.textAlign = 'left';
+                      ctx.textBaseline = 'middle';
+                      ctx.fillText(`${pct}%`, Math.max(x, base) + 8, y);
+                  });
+                  ctx.restore();
+              }
+          };
+
+          const nf = new Intl.NumberFormat(undefined, {maximumFractionDigits: 0});
+
+          new Chart(host.getContext('2d'), {
               type: 'bar',
-              data: {labels: ac.labels, datasets: [{data: ac.values}]},
+              data: {
+                  labels: ac.labels,
+                  datasets: [{
+                      data: ac.values,
+                      backgroundColor: pal.map(p => p.bg),
+                      borderColor: pal.map(p => p.br),
+                      borderWidth: 1.5,
+                      borderRadius: 10,
+                      barPercentage: .75,
+                      categoryPercentage: .8
+                  }]
+              },
               options: {
                   indexAxis: 'y',
-                  responsive: true,
+                  maintainAspectRatio: false,
                   plugins: {
                       legend: {display: false},
                       tooltip: {
+                          backgroundColor: 'rgba(0,0,0,.85)',
+                          borderColor: gridColor, borderWidth: 1, padding: 10,
                           callbacks: {
                               label: (ctx) => {
                                   const v = ctx.parsed.x || 0;
                                   const pct = ac.total ? Math.round(v / ac.total * 100) : 0;
-                                  return nf.format(v) + " {{ base_currency }} (" + pct + "%)";
+                                  return `${nf.format(v)} {{ base_currency }} — ${pct}%`;
                               }
                           }
                       },
-                      datalabels: window.ChartDataLabels ? {
-                          align: 'end',
-                          anchor: 'end',
-                          color: '#6c757d',
-                          formatter: (v) => {
-                              const pct = ac.total ? Math.round(v / ac.total * 100) : 0;
-                              return pct + "%";
-                          }
-                      } : undefined
+                      datalabels: {
+                          color: onBarColor,
+                          formatter: (v) => nf.format(v),
+                          anchor: 'center',
+                          align: 'center',
+                          clip: true,
+                          font: {weight: 700},
+                          textStrokeColor: 'rgba(0,0,0,.35)',
+                          textStrokeWidth: 2
+                      }
                   },
                   scales: {
-                      x: {beginAtZero: true, ticks: {callback: v => nf.format(v) + " {{ base_currency }}"}},
-                      y: {grid: {display: false}}
+                      x: {
+                          ticks: {color: textColor, callback: v => nf.format(v) + " {{ base_currency }}"},
+                          grid: {color: gridColor, drawTicks: false}
+                      },
+                      y: {ticks: {color: textColor}, grid: {display: false}}
                   }
-              }
+              },
+              plugins: [percentLabel]
           });
       })();
   </script>

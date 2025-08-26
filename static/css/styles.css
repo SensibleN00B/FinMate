@@ -8,7 +8,7 @@
 }
 
 .list-hover .list-group-item:hover {
-    background-color: greenyellow;
+    background-color: #719DDB;
     box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
 }
 
@@ -23,11 +23,25 @@
 }
 
 .color-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: inline-block;
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,.1);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1);
 }
 
-.card .card-header { font-weight: 600; }
+.card .card-header {
+    font-weight: 600;
+}
+
+.user-badge {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    background: rgba(var(--bs-primary-rgb), .15);
+    color: var(--bs-primary);
+}

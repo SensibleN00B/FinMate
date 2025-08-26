@@ -201,7 +201,6 @@ class Tag(models.Model):
         DANGER = "danger", "Red"
         WARNING = "warning", "Yellow"
         INFO = "info", "Cyan"
-        DARK = "dark", "Dark"
         LIGHT = "light", "Light"
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
