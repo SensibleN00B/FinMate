@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+import os
 from decimal import Decimal
 from pathlib import Path
 
@@ -29,9 +30,7 @@ SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = [
-    h.strip() for h in env("ALLOWED_HOSTS", default="").split(",") if h.strip()
-]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
 # Application definition
 
@@ -121,16 +120,6 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
-LOGIN_URL = env("LOGIN_URL", default="/accounts/login/")
-LOGIN_REDIRECT_URL = env("LOGIN_REDIRECT_URL", default="/")
-LOGOUT_REDIRECT_URL = env("LOGOUT_REDIRECT_URL", default="/")
-
-ACCOUNT_LOGIN_METHODS = {"email"}
-ACCOUNT_LOGOUT_REDIRECT_URL = "/"
-ACCOUNT_UNIQUE_EMAIL = True
-
-ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*", "username"]
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -175,11 +164,6 @@ MESSAGE_TAGS = {
     messages.ERROR: "error",
 }
 
-EMAIL_BACKEND = env(
-    "EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
-)
-DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="noreply@finmate.app")
-
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SESSION_COOKIE_HTTPONLY = True
@@ -207,7 +191,38 @@ LOGGING = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-SITE_ID = 1
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*", "username"]
+
+SITE_ID = int(os.getenv("SITE_ID", "1"))
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http" if DEBUG else "https"
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[FinMate] "
+
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend")
+EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
+EMAIL_USE_TLS = env("EMAIL_USE_TLS")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "sensible.noob@gamil.com")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", f"FinMate <{EMAIL_HOST_USER}>")
+EMAIL_TIMEOUT = int(os.getenv("EMAIL_TIMEOUT", "30"))
+
+LOGIN_URL = os.getenv("LOGIN_URL", "/accounts/login/")
+LOGIN_REDIRECT_URL = os.getenv("LOGIN_REDIRECT_URL", "/")
+LOGOUT_REDIRECT_URL = os.getenv("LOGOUT_REDIRECT_URL", "/")
+
+CSRF_TRUSTED_ORIGINS = [
+    f"http://{h}" for h in ALLOWED_HOSTS if h and h not in {"127.0.0.1", "localhost"}
+] + [
+    f"https://{h}" for h in ALLOWED_HOSTS if h and h not in {"127.0.0.1", "localhost"}
+]
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -229,5 +244,4 @@ CURRENCY_RATES = {
     "UAH": Decimal("1"),
     "USD": Decimal("41.20"),
     "EUR": Decimal("45.00"),
-    "PLN": Decimal("10.50"),
 }

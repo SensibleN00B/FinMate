@@ -22,7 +22,7 @@ from django.views.generic import (
     UpdateView,
 )
 
-from .forms import AccountForm, BudgetForm, CategoryForm, TagForm, TransactionForm
+from .forms import AccountForm, BudgetForm, CategoryForm, TagForm, TransactionForm, TransactionFilterForm
 from .models import Account, Budget, Category, Tag, Transaction, TransactionTag
 from .services.fx import get_rates
 
@@ -170,17 +170,68 @@ class CategoryDeleteView(UserOwnedQuerysetMixin, DeleteView):
 
 class TransactionListView(LoginRequiredMixin, ListView):
     model = Transaction
-    paginate_by = 7
     context_object_name = "transactions"
     template_name = "fin_mate/transaction_list.html"
+    paginate_by = 10
+
+    def get_form(self):
+        return TransactionFilterForm(self.request.GET or None, user=self.request.user)
 
     def get_queryset(self):
-        return (
-            Transaction.objects.select_related("account", "category")
+        query_set = (
+            Transaction.objects
+            .select_related("account", "category")
             .prefetch_related("transactiontag_set__tag")
             .filter(account__user=self.request.user)
-            .order_by("-date", "-pk")
         )
+
+        self.filter_form = form = self.get_form()
+        if form.is_valid():
+            cleaned_data = form.cleaned_data
+
+            if cleaned_data.get("date_from"):
+                query_set = query_set.filter(date__gte=cleaned_data["date_from"])
+            if cleaned_data.get("date_to"):
+                query_set = query_set.filter(date__lte=cleaned_data["date_to"])
+
+            if cleaned_data.get("category"):
+                query_set = query_set.filter(category=cleaned_data["category"])
+
+            if cleaned_data.get("tag"):
+                query_set = query_set.filter(tags=cleaned_data["tag"]).distinct()
+
+            if cleaned_data.get("type"):
+                query_set = query_set.filter(type=cleaned_data["type"])
+
+        raw_sort = (self.request.GET.get("sort") or "").strip()
+
+        legacy_map = {
+            "-date": "date_desc",
+            "date": "date_asc",
+            "-amount": "amount_desc",
+            "amount": "amount_asc",
+        }
+        order_key = legacy_map.get(raw_sort, raw_sort)
+
+        allowed_keys = {"date_desc", "date_asc", "amount_desc", "amount_asc"}
+        if order_key not in allowed_keys:
+            order_key = "date_desc"
+        order_map = {
+            "date_desc": "-date",
+            "date_asc": "date",
+            "amount_desc": "-amount",
+            "amount_asc": "amount",
+        }
+        order_by = order_map[order_key]
+        self.current_sort = order_key
+
+        return query_set.order_by(order_by, "-pk")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter_form"] = self.filter_form
+        context["current_sort"] = getattr(self, "current_sort", "date_desc")
+        return context
 
 
 class TransactionDetailView(LoginRequiredMixin, DetailView):
