@@ -1,14 +1,11 @@
 from datetime import date
-from decimal import Decimal
-from calendar import monthrange
 
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
 from django.db import transaction as db_transaction
-from django.db.models import DecimalField, Prefetch, Sum, Value
-from django.db.models.functions import Coalesce
+from django.db.models import Prefetch, Q
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
@@ -31,27 +28,11 @@ from .forms import (
     TransactionFilterForm,
 )
 from .models import Account, Budget, Category, Tag, Transaction, TransactionTag
-from .services.fx import get_rates
-
-
-def _first_day(dt: date) -> date:
-    return dt.replace(day=1)
-
-
-def _prev_month(first_day: date) -> date:
-    return (
-        first_day.replace(year=first_day.year - 1, month=12)
-        if first_day.month == 1
-        else first_day.replace(month=first_day.month - 1)
-    )
-
-
-class UserOwnedQuerysetMixin(LoginRequiredMixin):
-    """Restrict queryset to the current user's objects."""
-
-    def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.filter(user=self.request.user)
+from .services.budget_copy import copy_month
+from .services.budget_list import first_day, prev_month
+from .services.dashboard import month_summary
+from .services.dates import parse_period_or_today, month_range
+from .services.mixins import UserOwnedQuerysetMixin
 
 
 class AccountListView(UserOwnedQuerysetMixin, ListView):
@@ -184,57 +165,80 @@ class TransactionListView(LoginRequiredMixin, ListView):
     template_name = "fin_mate/transaction_list.html"
     paginate_by = 10
 
+    ORDER_ALLOWED = {"date_desc", "date_asc", "amount_desc", "amount_asc"}
+    ORDER_MAP = {
+        "date_desc": "-date",
+        "date_asc": "date",
+        "amount_desc": "-amount",
+        "amount_asc": "amount",
+    }
+    LEGACY_MAP = {
+        "-date": "date_desc",
+        "date": "date_asc",
+        "-amount": "amount_desc",
+        "amount": "amount_asc",
+    }
+
     def get_form(self):
         return TransactionFilterForm(self.request.GET or None, user=self.request.user)
 
-    def get_queryset(self):
-        query_set = (
-            Transaction.objects.select_related("account", "category")
-            .prefetch_related("transactiontag_set__tag")
+    def base_queryset(self):
+        return (
+            Transaction.objects
+            .select_related("account", "category")
+            .only(
+                "id", "date", "amount", "type", "description",
+                "account__id", "account__name", "account__currency",
+                "category__id", "category__name",
+            )
+            .prefetch_related(
+                Prefetch(
+                    "transactiontag_set",
+                    queryset=(
+                        TransactionTag.objects
+                        .select_related("tag")
+                        .only(
+                            "id", "transaction_id", "tag_id",
+                            "tag__id", "tag__name", "tag__color",
+                        )
+                        .order_by("tag__name")
+                    ),
+                )
+            )
             .filter(account__user=self.request.user)
         )
 
+    def get_queryset(self):
+        qs = self.base_queryset()
         self.filter_form = form = self.get_form()
+
         if form.is_valid():
-            cleaned_data = form.cleaned_data
+            cd = form.cleaned_data
 
-            if cleaned_data.get("date_from"):
-                query_set = query_set.filter(date__gte=cleaned_data["date_from"])
-            if cleaned_data.get("date_to"):
-                query_set = query_set.filter(date__lte=cleaned_data["date_to"])
+            date_q = Q()
+            if cd.get("date_from"):
+                date_q &= Q(date__gte=cd["date_from"])
+            if cd.get("date_to"):
+                date_q &= Q(date__lte=cd["date_to"])
+            if date_q:
+                qs = qs.filter(date_q)
 
-            if cleaned_data.get("category"):
-                query_set = query_set.filter(category=cleaned_data["category"])
+            if cd.get("category"):
+                qs = qs.filter(category=cd["category"])
 
-            if cleaned_data.get("tag"):
-                query_set = query_set.filter(tags=cleaned_data["tag"]).distinct()
+            if cd.get("tag"):
+                qs = qs.filter(tags=cd["tag"]).distinct()
 
-            if cleaned_data.get("type"):
-                query_set = query_set.filter(type=cleaned_data["type"])
+            if cd.get("type"):
+                qs = qs.filter(type=cd["type"])
 
         raw_sort = (self.request.GET.get("sort") or "").strip()
-
-        legacy_map = {
-            "-date": "date_desc",
-            "date": "date_asc",
-            "-amount": "amount_desc",
-            "amount": "amount_asc",
-        }
-        order_key = legacy_map.get(raw_sort, raw_sort)
-
-        allowed_keys = {"date_desc", "date_asc", "amount_desc", "amount_asc"}
-        if order_key not in allowed_keys:
+        order_key = self.LEGACY_MAP.get(raw_sort, raw_sort)
+        if order_key not in self.ORDER_ALLOWED:
             order_key = "date_desc"
-        order_map = {
-            "date_desc": "-date",
-            "date_asc": "date",
-            "amount_desc": "-amount",
-            "amount_asc": "amount",
-        }
-        order_by = order_map[order_key]
         self.current_sort = order_key
 
-        return query_set.order_by(order_by, "-pk")
+        return qs.order_by(self.ORDER_MAP[order_key], "-pk")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -269,13 +273,13 @@ class TransactionCreateView(LoginRequiredMixin, CreateView):
     def get_initial(self):
         initial = super().get_initial()
         cat_id = self.request.GET.get("category")
-        dt = self.request.GET.get("date")
+        selected_date = self.request.GET.get("date")
 
         if cat_id:
             initial["category"] = cat_id
             initial["type"] = Transaction.TransactionType.EXPENSE
-        if dt:
-            initial["date"] = dt
+        if selected_date:
+            initial["date"] = selected_date
         return initial
 
     @db_transaction.atomic
@@ -318,7 +322,7 @@ class TransactionUpdateView(LoginRequiredMixin, UpdateView):
     @db_transaction.atomic
     def form_valid(self, form):
         response = super().form_valid(form)
-        # replace existing tag links with the selected ones
+
         TransactionTag.objects.filter(transaction=self.object).delete()
         selected_tags = form.cleaned_data.get("tags") or []
         TransactionTag.objects.bulk_create(
@@ -436,27 +440,35 @@ class BudgetListView(LoginRequiredMixin, ListView):
             .filter(user=self.request.user)
             .order_by("-period", "category__name")
         )
+
         self._selected = None
-        period = self.request.GET.get("period")
-        if period:
+        raw = self.request.GET.get("period")
+        if raw:
             try:
-                y, m = map(int, period.split("-")[:2])
+                y, m = map(int, raw.split("-")[:2])
                 self._selected = date(y, m, 1)
-                qs = qs.filter(period__year=y, period__month=m)
             except Exception:
                 pass
-        return qs
+
+        if not self._selected:
+            self._selected = first_day(timezone.localdate())
+
+        return qs.filter(
+            period__year=self._selected.year,
+            period__month=self._selected.month,
+        )
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        selected = self._selected or _first_day(timezone.localdate())
-        prev = _prev_month(selected)
+        selected = self._selected
+        prev = prev_month(selected)
 
         context["period"] = selected
         context["period_str"] = selected.strftime("%Y-%m")
         context["prev_period_str"] = prev.strftime("%Y-%m")
-        context["has_budgets"] = (
-            context["paginator"].count > 0 if "paginator" in context else False
+        context["has_budgets"] = bool(
+            context.get("paginator")
+            and context["paginator"].count > 0
         )
         return context
 
@@ -535,47 +547,18 @@ class BudgetDeleteView(LoginRequiredMixin, DeleteView):
 
 class BudgetCopyView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
-        period_param = request.POST.get("period")
-        target = _first_day(timezone.localdate())
-        if period_param:
-            try:
-                y, m = map(int, period_param.split("-")[:2])
-                target = date(y, m, 1)
-            except Exception:
-                pass
-        prev = _prev_month(target)
+        target = parse_period_or_today(request.POST.get("period"))
+        result = copy_month(request.user, target)
 
-        prev_qs = Budget.objects.filter(
-            user=request.user, period__year=prev.year, period__month=prev.month
-        ).select_related("category")
-        existing = set(
-            Budget.objects.filter(
-                user=request.user, period__year=target.year, period__month=target.month
-            ).values_list("category_id", flat=True)
-        )
-        to_create = [
-            Budget(
-                user=request.user,
-                category=b.category,
-                limit=b.limit,
-                period=target,
-                notes=b.notes,
-            )
-            for b in prev_qs
-            if b.category_id not in existing
-        ]
-        Budget.objects.bulk_create(to_create, ignore_conflicts=True)
-
-        created = len(to_create)
-        if created:
+        if result.created:
             messages.success(
                 request,
-                f"Copied {created} budget(s) from {prev:%Y-%m} to {target:%Y-%m}.",
+                f"Copied {result.created} budget(s) from {result.prev:%Y-%m} to {result.target:%Y-%m}.",
             )
         else:
             messages.info(
                 request,
-                f"Nothing to copy, or budgets already exist for {target:%Y-%m}.",
+                f"Nothing to copy, or budgets already exist for {result.target:%Y-%m}.",
             )
 
         return redirect(f"{reverse('fin_mate:budget-list')}?period={target:%Y-%m}")
@@ -584,131 +567,20 @@ class BudgetCopyView(LoginRequiredMixin, View):
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = "fin_mate/dashboard.html"
 
-    @staticmethod
-    def _month_range(dt: date) -> tuple[date, date]:
-        start = dt.replace(day=1)
-        end = (
-            start.replace(year=start.year + 1, month=1)
-            if start.month == 12
-            else start.replace(month=start.month + 1)
-        )
-        return start, end
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = self.request.user
 
-        period_param = self.request.GET.get("period")
-        if period_param:
-            try:
-                y, m = map(int, period_param.split("-")[:2])
-                selected = date(y, m, 1)
-            except Exception:
-                selected = timezone.localdate().replace(day=1)
-        else:
-            selected = timezone.localdate().replace(day=1)
-        start, end = self._month_range(selected)
+        selected = parse_period_or_today(self.request.GET.get("period"))
+        start, end = month_range(selected)
 
-        accounts_qs = Account.objects.with_balance().filter(user=user).order_by("name")
-
-        month_tx = Transaction.objects.filter(
-            account__user=user, date__gte=start, date__lt=end
-        )
-
-        currencies = {(a.currency or "").upper() for a in accounts_qs if a.currency}
-        currencies |= {
-            (row["account__currency"] or settings.FX_BASE_CURRENCY).upper()
-            for row in month_tx.values("account__currency").distinct()
-        }
-        rates = get_rates(currencies)
-
-        base_total = Decimal("0")
-        acc_labels, acc_values_base = [], []
-        for a in accounts_qs:
-            amount = getattr(a, "annotated_balance", Decimal("0")) or Decimal("0")
-            code = (a.currency or settings.FX_BASE_CURRENCY).upper()
-            rate = rates.get(code, Decimal("1"))
-            v_base = (amount * rate).quantize(Decimal("0.01"))
-            base_total += v_base
-            acc_labels.append(a.name)
-            acc_values_base.append(float(v_base))
-
-        def sum_in_base(qs) -> Decimal:
-            total = Decimal("0")
-            for row in qs.values("account__currency").annotate(total=Sum("amount")):
-                code = (row["account__currency"] or settings.FX_BASE_CURRENCY).upper()
-                rate = rates.get(code, Decimal("1"))
-                total += (row["total"] * rate).quantize(Decimal("0.01"))
-            return total
-
-        income = sum_in_base(month_tx.filter(type=Transaction.TransactionType.INCOME))
-        expenses = sum_in_base(
-            month_tx.filter(type=Transaction.TransactionType.EXPENSE)
-        )
-        net = income - expenses
-
-        top_cats_qs = (
-            month_tx.filter(type=Transaction.TransactionType.EXPENSE)
-            .values("category__name")
-            .annotate(total=Sum("amount"))
-            .order_by("-total")[:5]
-        )
-        total_exp = expenses or Decimal("0")
-        top_categories = [
-            {
-                "name": row["category__name"] or "—",
-                "total": row["total"],
-                "percent": (
-                    float((row["total"] / total_exp) * 100) if total_exp else 0.0
-                ),
-            }
-            for row in top_cats_qs
-        ]
-
-        budgets_qs = (
-            Budget.objects.select_related("category")
-            .filter(user=user, period__year=start.year, period__month=start.month)
-            .order_by("category__name")
-        )
-        spends_map = {
-            row["category_id"]: row["total"]
-            for row in month_tx.filter(type=Transaction.TransactionType.EXPENSE)
-            .values("category_id")
-            .annotate(total=Sum("amount"))
-        }
-        budgets = []
-        for b in budgets_qs:
-            spent = spends_map.get(b.category_id, Decimal("0"))
-            limit = b.limit or Decimal("0")
-            progress = (
-                float((spent / (limit or Decimal("0.01"))) * 100) if limit else 0.0
-            )
-            budgets.append({"obj": b, "spent": spent, "progress": progress})
-
-        recent = (
-            Transaction.objects.select_related("account", "category")
-            .filter(account__user=user)
-            .order_by("-date", "-pk")[:10]
-        )
+        summary = month_summary(self.request.user, start, end)
 
         context.update(
             {
                 "period": selected,
                 "period_str": selected.strftime("%Y-%m"),
-                "accounts": accounts_qs,
                 "base_currency": settings.FX_BASE_CURRENCY,
-                "total_balance": base_total,
-                "accounts_chart": {
-                    "labels": acc_labels,
-                    "values": acc_values_base,
-                    "total": float(base_total),
-                },
-                "income": income,
-                "expenses": expenses,
-                "net": net,
-                "top_categories": top_categories,
-                "budgets": budgets,
-                "recent": recent,
+                **summary,
             }
         )
         return context
