@@ -1,33 +1,45 @@
-# --- Python ---
+# Python
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
 *.so
+*.egg
 *.egg-info/
-.eggs/
-*.sqlite3
+dist/
+build/
 
-# --- Virtualenv ---
-.venv/
-env/
-venv/
-ENV/
-
-# --- Django ---
+# Django
+*.log
+*.pot
+*.pyc
+local_settings.py
 db.sqlite3
+db.sqlite3-journal
 media/
 staticfiles/
 
-# --- IDE / OS ---
-.idea/
-.vscode/
-.DS_Store
-Thumbs.db
-
-# --- Environment variables ---
+# Environments
 .env
+.venv/
+venv/
+ENV/
+env/
 
-# --- Logs ---
-*.log
-/secrets/
+# IDE / Editors
+.vscode/
+.idea/
+*.swp
+
+# Pytest / Coverage
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+
+# Migrations
+**/migrations/*.py
+!**/migrations/__init__.py

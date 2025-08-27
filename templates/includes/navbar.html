@@ -1,9 +1,9 @@
+{% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom sticky-top">
   <div class="container">
-    <a class="navbar-brand fw-semibold" href="{% url 'fin_mate:dashboard' %}">
-      <i class="bi bi-graph-up-arrow me-1"></i> FinMate
+    <a class="navbar-brand p-0" href="{% url 'fin_mate:dashboard' %}" aria-label="FinMate">
+      <img src="{% static 'img/finmate-mark.svg' %}" alt="FinMate logo" height="38">
     </a>
-
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
             aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
