@@ -1,9 +1,11 @@
-from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Case, DecimalField, F, Q, Sum, Value, When
 from django.db.models.functions import Coalesce
 from django.utils import timezone
+
+User = get_user_model()
 
 
 class Category(models.Model):
@@ -11,7 +13,7 @@ class Category(models.Model):
         max_length=63,
     )
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, related_name="categories", on_delete=models.CASCADE
+        User, related_name="categories", on_delete=models.CASCADE
     )
 
     is_system = models.BooleanField(default=False, db_index=True)
@@ -123,7 +125,7 @@ class Account(models.Model):
         default=Currency.UAH,
     )
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
+        User,
         related_name="accounts",
         on_delete=models.CASCADE,
     )
@@ -155,7 +157,7 @@ class Account(models.Model):
 
 class Budget(models.Model):
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="budgets"
+        User, on_delete=models.CASCADE, related_name="budgets"
     )
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="budgets"
@@ -212,7 +214,7 @@ class Tag(models.Model):
         INFO = "info", "Cyan"
         LIGHT = "light", "Light"
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=32)
     color = models.CharField(
         max_length=10,
@@ -236,7 +238,7 @@ class Tag(models.Model):
 class TransactionTag(models.Model):
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
-    added_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    added_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
