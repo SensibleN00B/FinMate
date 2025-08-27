@@ -39,9 +39,9 @@ def month_summary(user, start, end):
     net = income - expenses
 
     top_cats_qs = (month_tx.filter(type=Transaction.TransactionType.EXPENSE)
-                   .values("category__name")
-                   .annotate(total=Sum("amount"))
-                   .order_by("-total")[:5])
+    .values("category__name")
+    .annotate(total=Sum("amount"))
+    .order_by("-total")[:5])
     total_exp = expenses or Decimal("0")
     top_categories = [{
         "name": row["category__name"] or "—",
@@ -63,9 +63,13 @@ def month_summary(user, start, end):
         progress = float((spent / denom) * 100) if denom else 0.0
         budgets.append({"obj": b, "spent": spent, "progress": progress})
 
-    recent = (Transaction.objects.select_related("account", "category")
-              .filter(account__user=user)
-              .order_by("-date", "-pk")[:10])
+    recent = (
+        Transaction.objects
+        .filter(account__user=user)
+        .public()
+        .select_related("account", "category")
+        .order_by("-date", "-pk")[:10]
+    )
 
     return {
         "accounts": accounts_qs,

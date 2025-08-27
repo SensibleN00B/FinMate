@@ -1,12 +1,23 @@
+from decimal import Decimal
+
 from django import forms
 
 from fin_mate.models import Account, Budget, Category, Tag, Transaction
 
 
 class AccountForm(forms.ModelForm):
+    starting_balance = forms.DecimalField(
+        label="Starting balance",
+        min_value=Decimal("0"),
+        max_digits=12,
+        decimal_places=2,
+        required=False,
+        initial=Decimal("0.00"),
+    )
+
     class Meta:
         model = Account
-        fields = ["name", "currency", "type"]
+        fields = ["name", "currency", "type", "starting_balance"]
         widgets = {
             "name": forms.TextInput(
                 attrs={
@@ -64,8 +75,8 @@ class TransactionForm(forms.ModelForm):
             self.fields["account"].queryset = self.fields["account"].queryset.filter(
                 user=user
             )
-            self.fields["category"].queryset = self.fields["category"].queryset.filter(
-                user=user
+            self.fields["category"].queryset = (
+                Category.objects.filter(user=user, is_system=False)
             )
             self.fields["tags"].queryset = Tag.objects.filter(user=user).order_by(
                 "name"

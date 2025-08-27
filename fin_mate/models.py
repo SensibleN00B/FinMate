@@ -13,6 +13,9 @@ class Category(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, related_name="categories", on_delete=models.CASCADE
     )
+
+    is_system = models.BooleanField(default=False, db_index=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -30,11 +33,17 @@ class Category(models.Model):
         return self.name
 
 
+class TransactionQuerySet(models.QuerySet):
+    def public(self):
+        return self.exclude(category__is_system=True)
+
+
 class Transaction(models.Model):
     class TransactionType(models.TextChoices):
         INCOME = "INCOME", "Income"
         EXPENSE = "EXPENSE", "Expense"
 
+    objects = TransactionQuerySet.as_manager()
     amount = models.DecimalField(max_digits=12, decimal_places=2)
     type = models.CharField(choices=TransactionType.choices, max_length=10)
     account = models.ForeignKey(

@@ -1,9 +1,10 @@
 from datetime import date
+from decimal import Decimal
 
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db import IntegrityError
+from django.db import IntegrityError, transaction
 from django.db import transaction as db_transaction
 from django.db.models import Prefetch, Q
 from django.shortcuts import redirect
@@ -54,16 +55,38 @@ class AccountCreateView(LoginRequiredMixin, CreateView):
     template_name = "fin_mate/account_form.html"
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
         try:
-            response = super().form_valid(form)
+            with transaction.atomic():
+                account = form.save(commit=False)
+                account.user = self.request.user
+                account.save()
+                starting_balance = form.cleaned_data.get("starting_balance") or Decimal("0")
+
+                if starting_balance > 0:
+                    opening_category, _ = Category.objects.get_or_create(
+                        user=self.request.user,
+                        name="Opening balance",
+                        defaults={"is_system": True},
+                    )
+                    if not opening_category.is_system:
+                        opening_category.is_system = True
+                        opening_category.save(update_fields=["is_system"])
+                    Transaction.objects.create(
+                        amount=starting_balance,
+                        type=Transaction.TransactionType.INCOME,
+                        account=account,
+                        category=opening_category,
+                        date=timezone.localdate(),
+                        description="Initial balance",
+                    )
+                self.object = account
+
         except IntegrityError:
-            form.add_error(
-                "name", "Account with this name already exists for your user."
-            )
+            form.add_error("name", "Account with this name already exists for your user.")
             return self.form_invalid(form)
+
         messages.success(self.request, "Account created ✅")
-        return response
+        return redirect(self.get_success_url())
 
     def get_success_url(self):
         return reverse("fin_mate:account-detail", kwargs={"pk": self.object.pk})
@@ -185,6 +208,7 @@ class TransactionListView(LoginRequiredMixin, ListView):
     def base_queryset(self):
         return (
             Transaction.objects
+            .public()
             .select_related("account", "category")
             .only(
                 "id", "date", "amount", "type", "description",
@@ -209,28 +233,28 @@ class TransactionListView(LoginRequiredMixin, ListView):
         )
 
     def get_queryset(self):
-        qs = self.base_queryset()
+        filtered_queryset = self.base_queryset()
         self.filter_form = form = self.get_form()
 
         if form.is_valid():
-            cd = form.cleaned_data
+            cleaned_data = form.cleaned_data
 
             date_q = Q()
-            if cd.get("date_from"):
-                date_q &= Q(date__gte=cd["date_from"])
-            if cd.get("date_to"):
-                date_q &= Q(date__lte=cd["date_to"])
+            if cleaned_data.get("date_from"):
+                date_q &= Q(date__gte=cleaned_data["date_from"])
+            if cleaned_data.get("date_to"):
+                date_q &= Q(date__lte=cleaned_data["date_to"])
             if date_q:
-                qs = qs.filter(date_q)
+                filtered_queryset = filtered_queryset.filter(date_q)
 
-            if cd.get("category"):
-                qs = qs.filter(category=cd["category"])
+            if cleaned_data.get("category"):
+                filtered_queryset = filtered_queryset.filter(category=cleaned_data["category"])
 
-            if cd.get("tag"):
-                qs = qs.filter(tags=cd["tag"]).distinct()
+            if cleaned_data.get("tag"):
+                filtered_queryset = filtered_queryset.filter(tags=cleaned_data["tag"]).distinct()
 
-            if cd.get("type"):
-                qs = qs.filter(type=cd["type"])
+            if cleaned_data.get("type"):
+                filtered_queryset = filtered_queryset.filter(type=cleaned_data["type"])
 
         raw_sort = (self.request.GET.get("sort") or "").strip()
         order_key = self.LEGACY_MAP.get(raw_sort, raw_sort)
@@ -238,7 +262,7 @@ class TransactionListView(LoginRequiredMixin, ListView):
             order_key = "date_desc"
         self.current_sort = order_key
 
-        return qs.order_by(self.ORDER_MAP[order_key], "-pk")
+        return filtered_queryset.order_by(self.ORDER_MAP[order_key], "-pk")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
