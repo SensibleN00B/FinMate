@@ -78,6 +78,26 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-
 Now open http://127.0.0.1:8000/
  in your browser 🎉
+
+
+## 📸 Screenshots
+
+Some demo screenshots of **FinMate** in action:
+
+| Dashboard | Dashboard p2 |
+|---------------------------------------------------|--------------|
+| <img src="demo/1.png" alt="Dashboard" width="500"/> | <img src="demo/2.png" alt="Budgets" width="500"/> |
+
+| Accounts   | Transactions |
+|-------------------------------------------------------|--------------------------------------------------|
+| <img src="demo/3.png" alt="Transactions" width="500"/> | <img src="demo/4.png" alt="Reports" width="500"/> |
+
+| Categories | Tags |
+|------------|----------------------------------------------------------|
+| <img src="demo/5.png" alt="Categories" width="500"/> | <img src="demo/6.png" alt="Add Transaction" width="500"/> |
+
+| Budgets | Log in  |
+|---------------------------------------------------|---------------------------------------------------|
+| <img src="demo/7.png" alt="Profile" width="500"/> | <img src="demo/8.png" alt="Settings" width="500"/> |
