@@ -43,16 +43,15 @@
   </style>
 </head>
 <body class="bg-body d-flex flex-column min-vh-100">
+
 <!-- NAVBAR -->
 {% include "includes/navbar.html" %}
-
 
 <!-- MAIN -->
 <main class="container my-4">
   {% include "includes/messages.html" %}
   {% block content %}{% endblock %}
 </main>
-
 
 <!-- FOOTER -->
 <footer class="border-top py-3 mt-auto">
@@ -62,10 +61,8 @@
   </div>
 </footer>
 
-
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-
 
 <!-- Theme toggle -->
 <script>
@@ -97,7 +94,6 @@
         });
     })();
 </script>
-
 
 {% block extra_js %}{% endblock %}
 </body>
