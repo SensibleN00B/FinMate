@@ -50,12 +50,19 @@
           <td>{{ b.spent_amount }}</td>
           <td style="min-width:220px;">
             {% with p=b.progress|floatformat:0 %}
-              <div class="progress" role="progressbar" aria-valuenow="{{ p }}" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar {% if p|add:'0' > 100 %}bg-danger{% else %}bg-success{% endif %}"
-                     style="width: {{ p }}%">{{ p }}%
+              <div class="progress" role="progressbar"
+                   aria-valuenow="{{ p }}" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar
+                  {% if p|add:'0' > 100 %}pg-red
+                  {% elif p|add:'0' >= 80 %}pg-amber
+                  {% else %}pg-green
+                  {% endif %}"
+                     style="width: {{ p }}%">
+                  {{ p }}%
                 </div>
               </div>
             {% endwith %}
+
           </td>
           <td class="text-end">
             <a class="btn btn-sm btn-outline-secondary" href="{% url 'fin_mate:budget-detail' b.pk %}">Open</a>

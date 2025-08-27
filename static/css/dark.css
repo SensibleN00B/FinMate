@@ -1,4 +1,5 @@
 :root[data-bs-theme="dark"] {
+    color-scheme: dark;
     --bs-body-bg: #0f1115;
     --bs-body-color: #d6d9e0;
     --bs-secondary-color: #a5adbb;
@@ -24,6 +25,7 @@
     --bs-form-control-color: var(--bs-body-color);
     --bs-input-border-color: color-mix(in srgb, var(--fm-surface-2), #ffffff 12%);
     --bs-focus-ring-color: rgba(var(--bs-primary-rgb), .35);
+    --bs-heading-color: #e6e9f2;
 }
 
 @supports not (color-mix(in srgb, #000, #fff)) {
@@ -54,9 +56,7 @@
     }
 }
 
-.form-control,
-.form-select,
-.form-check-input {
+.form-control, .form-select, .form-check-input {
     background-color: var(--bs-form-control-bg);
     color: var(--bs-form-control-color);
     border-color: var(--bs-input-border-color);
@@ -67,9 +67,7 @@
     opacity: .9;
 }
 
-.form-control:focus,
-.form-select:focus,
-.form-check-input:focus {
+.form-control:focus, .form-select:focus, .form-check-input:focus {
     box-shadow: 0 0 0 .25rem var(--bs-focus-ring-color);
     border-color: rgba(var(--bs-primary-rgb), .6);
 }
@@ -131,8 +129,7 @@
     box-shadow: 0 0 0 .2rem var(--pg-focus);
 }
 
-.pagination .page-link .bi,
-.pagination .page-link svg {
+.pagination .page-link .bi, .pagination .page-link svg {
     color: inherit;
     stroke: currentColor;
 }
@@ -146,7 +143,21 @@
 }
 
 .progress-bar {
-    background-image: linear-gradient(90deg, var(--bs-primary), #00d4ff);
+    background-image: linear-gradient(90deg, #4cc9f0, #6d5efc);
+    color: #fff;
+    transition: width .4s ease, background-image .3s ease;
+}
+
+.progress-bar.pg-green {
+    background-image: linear-gradient(90deg, #16c784, #00d4ff);
+}
+
+.progress-bar.pg-amber {
+    background-image: linear-gradient(90deg, #f1c40f, #ff9800);
+}
+
+.progress-bar.pg-red {
+    background-image: linear-gradient(90deg, #ef476f, #d00070);
 }
 
 .alert {
@@ -175,10 +186,6 @@
     border-color: rgba(239, 71, 111, .35);
 }
 
-:root[data-bs-theme="dark"] {
-    --bs-heading-color: #e6e9f2;
-}
-
 .navbar .navbar-brand {
     letter-spacing: .2px;
 }
@@ -193,4 +200,10 @@
     font-weight: 600;
     background: rgba(var(--bs-primary-rgb), .15);
     color: var(--bs-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .list-group-item, .chevron, .pagination .page-link {
+        transition: none !important;
+    }
 }

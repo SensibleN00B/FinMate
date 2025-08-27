@@ -430,7 +430,7 @@ class TagDeleteView(LoginRequiredMixin, DeleteView):
 
 class BudgetListView(LoginRequiredMixin, ListView):
     model = Budget
-    paginate_by = 5
+    paginate_by = 7
     context_object_name = "budgets"
     template_name = "fin_mate/budget_list.html"
 

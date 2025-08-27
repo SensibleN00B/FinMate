@@ -1,6 +1,13 @@
+/* Layout helpers */
+.checkbox-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem .75rem;
+}
+
 .checkbox-grid .form-check {
-    width: 50%;
-    float: left;
+    width: clamp(220px, 50%, 340px);
+    margin: 0;
 }
 
 .list-hover .list-group-item {
@@ -8,7 +15,7 @@
 }
 
 .list-hover .list-group-item:hover {
-    background-color: #719DDB;
+    background-color: color-mix(in srgb, var(--bs-primary), #fff 70%);
     box-shadow: 0 2px 12px rgba(0, 0, 0, .06);
 }
 
@@ -34,18 +41,6 @@
     font-weight: 600;
 }
 
-.user-badge {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-    background: rgba(var(--bs-primary-rgb), .15);
-    color: var(--bs-primary);
-}
-
 :root:not([data-bs-theme="dark"]) .page-title {
     color: #0f172a;
     font-weight: 800;
@@ -69,15 +64,13 @@
 
 :root:not([data-bs-theme="dark"]) .card {
     border-color: rgba(16, 24, 40, .08);
-    box-shadow: 0 8px 28px rgba(16, 24, 40, .08),
-    0 2px 8px rgba(16, 24, 40, .06);
+    box-shadow: 0 8px 28px rgba(16, 24, 40, .08), 0 2px 8px rgba(16, 24, 40, .06);
 }
 
 :root:not([data-bs-theme="dark"]) .metric-card {
-    background: #fff;
-    border: 1px solid transparent;
     background: linear-gradient(#fff, #fff) padding-box,
     linear-gradient(135deg, rgba(109, 94, 252, .18), rgba(76, 201, 240, .14)) border-box;
+    border: 1px solid transparent;
 }
 
 :root:not([data-bs-theme="dark"]) .stat-label {
@@ -92,8 +85,3 @@
 :root:not([data-bs-theme="dark"]) .progress {
     background-color: #b0c1c7;
 }
-
-:root:not([data-bs-theme="dark"]) {
-
-}
-
