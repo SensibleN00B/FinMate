@@ -92,3 +92,8 @@
 :root:not([data-bs-theme="dark"]) .progress {
     background-color: #b0c1c7;
 }
+
+:root:not([data-bs-theme="dark"]) {
+
+}
+

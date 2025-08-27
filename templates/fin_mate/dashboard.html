@@ -285,7 +285,7 @@
 
           const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
           const textColor = css('--bs-body-color') || '#0a3a75';
-          const gridColor = css('--bs-border-color') || '#e2e8f0';
+          const gridColor = css('--bs-border-color') || '#6d5efc';
           const onBarColor = '#f8fafc';
 
           const makePalette = (n, startHue = 210) =>
@@ -359,15 +359,16 @@
                   },
                   scales: {
                       x: {
-                          ticks: {color: textColor, callback: v => nf.format(v) + " {{ base_currency }}"},
+                          ticks: {color: "#6d5efc", callback: v => nf.format(v) + " {{ base_currency }}"},
                           grid: {color: gridColor, drawTicks: false}
                       },
-                      y: {ticks: {color: textColor}, grid: {display: false}}
+                      y: {ticks: {color: "#6d5efc"}, grid: {display: false}}
                   }
               },
               plugins: [percentLabel]
           });
-      })();
+      })
+      ();
   </script>
 
 {% endblock %}

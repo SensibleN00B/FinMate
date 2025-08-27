@@ -214,7 +214,9 @@ class Tag(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["user", "name"], name="uniq_tag_name_per_user")
+            models.UniqueConstraint(
+                fields=["user", "name"], name="uniq_tag_name_per_user"
+            )
         ]
         ordering = ["name"]
 

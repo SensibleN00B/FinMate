@@ -26,7 +26,8 @@ from fin_mate.views import (
     TransactionDeleteView,
     TransactionDetailView,
     TransactionListView,
-    TransactionUpdateView, BudgetCopyView,
+    TransactionUpdateView,
+    BudgetCopyView,
 )
 
 app_name = "fin_mate"

@@ -22,7 +22,14 @@ from django.views.generic import (
     UpdateView,
 )
 
-from .forms import AccountForm, BudgetForm, CategoryForm, TagForm, TransactionForm, TransactionFilterForm
+from .forms import (
+    AccountForm,
+    BudgetForm,
+    CategoryForm,
+    TagForm,
+    TransactionForm,
+    TransactionFilterForm,
+)
 from .models import Account, Budget, Category, Tag, Transaction, TransactionTag
 from .services.fx import get_rates
 
@@ -32,8 +39,11 @@ def _first_day(dt: date) -> date:
 
 
 def _prev_month(first_day: date) -> date:
-    return first_day.replace(year=first_day.year - 1, month=12) if first_day.month == 1 \
+    return (
+        first_day.replace(year=first_day.year - 1, month=12)
+        if first_day.month == 1
         else first_day.replace(month=first_day.month - 1)
+    )
 
 
 class UserOwnedQuerysetMixin(LoginRequiredMixin):
@@ -179,8 +189,7 @@ class TransactionListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         query_set = (
-            Transaction.objects
-            .select_related("account", "category")
+            Transaction.objects.select_related("account", "category")
             .prefetch_related("transactiontag_set__tag")
             .filter(account__user=self.request.user)
         )
@@ -446,7 +455,9 @@ class BudgetListView(LoginRequiredMixin, ListView):
         context["period"] = selected
         context["period_str"] = selected.strftime("%Y-%m")
         context["prev_period_str"] = prev.strftime("%Y-%m")
-        context["has_budgets"] = context["paginator"].count > 0 if "paginator" in context else False
+        context["has_budgets"] = (
+            context["paginator"].count > 0 if "paginator" in context else False
+        )
         return context
 
 
@@ -534,26 +545,37 @@ class BudgetCopyView(LoginRequiredMixin, View):
                 pass
         prev = _prev_month(target)
 
-        prev_qs = (Budget.objects
-                   .filter(user=request.user, period__year=prev.year, period__month=prev.month)
-                   .select_related("category"))
-        existing = set(Budget.objects
-                       .filter(user=request.user, period__year=target.year, period__month=target.month)
-                       .values_list("category_id", flat=True))
-        to_create = [Budget(user=request.user, category=b.category, limit=b.limit, period=target, notes=b.notes)
-                     for b in prev_qs if b.category_id not in existing]
+        prev_qs = Budget.objects.filter(
+            user=request.user, period__year=prev.year, period__month=prev.month
+        ).select_related("category")
+        existing = set(
+            Budget.objects.filter(
+                user=request.user, period__year=target.year, period__month=target.month
+            ).values_list("category_id", flat=True)
+        )
+        to_create = [
+            Budget(
+                user=request.user,
+                category=b.category,
+                limit=b.limit,
+                period=target,
+                notes=b.notes,
+            )
+            for b in prev_qs
+            if b.category_id not in existing
+        ]
         Budget.objects.bulk_create(to_create, ignore_conflicts=True)
 
         created = len(to_create)
         if created:
             messages.success(
                 request,
-                f"Copied {created} budget(s) from {prev:%Y-%m} to {target:%Y-%m}."
+                f"Copied {created} budget(s) from {prev:%Y-%m} to {target:%Y-%m}.",
             )
         else:
             messages.info(
                 request,
-                f"Nothing to copy, or budgets already exist for {target:%Y-%m}."
+                f"Nothing to copy, or budgets already exist for {target:%Y-%m}.",
             )
 
         return redirect(f"{reverse('fin_mate:budget-list')}?period={target:%Y-%m}")
@@ -565,8 +587,11 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     @staticmethod
     def _month_range(dt: date) -> tuple[date, date]:
         start = dt.replace(day=1)
-        end = start.replace(year=start.year + 1, month=1) if start.month == 12 \
+        end = (
+            start.replace(year=start.year + 1, month=1)
+            if start.month == 12
             else start.replace(month=start.month + 1)
+        )
         return start, end
 
     def get_context_data(self, **kwargs):
@@ -617,7 +642,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             return total
 
         income = sum_in_base(month_tx.filter(type=Transaction.TransactionType.INCOME))
-        expenses = sum_in_base(month_tx.filter(type=Transaction.TransactionType.EXPENSE))
+        expenses = sum_in_base(
+            month_tx.filter(type=Transaction.TransactionType.EXPENSE)
+        )
         net = income - expenses
 
         top_cats_qs = (
@@ -631,7 +658,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             {
                 "name": row["category__name"] or "—",
                 "total": row["total"],
-                "percent": float((row["total"] / total_exp) * 100) if total_exp else 0.0,
+                "percent": (
+                    float((row["total"] / total_exp) * 100) if total_exp else 0.0
+                ),
             }
             for row in top_cats_qs
         ]
@@ -651,7 +680,9 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         for b in budgets_qs:
             spent = spends_map.get(b.category_id, Decimal("0"))
             limit = b.limit or Decimal("0")
-            progress = float((spent / (limit or Decimal("0.01"))) * 100) if limit else 0.0
+            progress = (
+                float((spent / (limit or Decimal("0.01"))) * 100) if limit else 0.0
+            )
             budgets.append({"obj": b, "spent": spent, "progress": progress})
 
         recent = (
@@ -660,25 +691,24 @@ class DashboardView(LoginRequiredMixin, TemplateView):
             .order_by("-date", "-pk")[:10]
         )
 
-        context.update({
-            "period": selected,
-            "period_str": selected.strftime("%Y-%m"),
-
-            "accounts": accounts_qs,
-            "base_currency": settings.FX_BASE_CURRENCY,
-            "total_balance": base_total,
-
-            "accounts_chart": {
-                "labels": acc_labels,
-                "values": acc_values_base,
-                "total": float(base_total),
-            },
-
-            "income": income,
-            "expenses": expenses,
-            "net": net,
-            "top_categories": top_categories,
-            "budgets": budgets,
-            "recent": recent,
-        })
+        context.update(
+            {
+                "period": selected,
+                "period_str": selected.strftime("%Y-%m"),
+                "accounts": accounts_qs,
+                "base_currency": settings.FX_BASE_CURRENCY,
+                "total_balance": base_total,
+                "accounts_chart": {
+                    "labels": acc_labels,
+                    "values": acc_values_base,
+                    "total": float(base_total),
+                },
+                "income": income,
+                "expenses": expenses,
+                "net": net,
+                "top_categories": top_categories,
+                "budgets": budgets,
+                "recent": recent,
+            }
+        )
         return context

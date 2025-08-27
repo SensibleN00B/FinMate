@@ -77,31 +77,31 @@ class TransactionForm(forms.ModelForm):
 class TransactionFilterForm(forms.Form):
     date_from = forms.DateField(
         required=False,
-        widget=forms.DateInput(attrs={"type": "date", "class": "form-control"})
+        widget=forms.DateInput(attrs={"type": "date", "class": "form-control"}),
     )
     date_to = forms.DateField(
         required=False,
-        widget=forms.DateInput(attrs={"type": "date", "class": "form-control"})
+        widget=forms.DateInput(attrs={"type": "date", "class": "form-control"}),
     )
 
     category = forms.ModelChoiceField(
         queryset=Category.objects.none(),
         required=False,
         empty_label="All categories",
-        widget=forms.Select(attrs={"class": "form-select"})
+        widget=forms.Select(attrs={"class": "form-select"}),
     )
 
     tag = forms.ModelChoiceField(
         queryset=Tag.objects.none(),
         required=False,
         empty_label="All tags",
-        widget=forms.Select(attrs={"class": "form-select"})
+        widget=forms.Select(attrs={"class": "form-select"}),
     )
 
     type = forms.ChoiceField(
         required=False,
         choices=(("", "All types"),) + tuple(Transaction.TransactionType.choices),
-        widget=forms.Select(attrs={"class": "form-select"})
+        widget=forms.Select(attrs={"class": "form-select"}),
     )
     sort = forms.ChoiceField(
         required=False,
@@ -111,16 +111,20 @@ class TransactionFilterForm(forms.Form):
             ("amount_desc", "Amount ↓"),
             ("amount_asc", "Amount ↑"),
         ],
-        widget=forms.Select(attrs={"class": "form-select"})
+        widget=forms.Select(attrs={"class": "form-select"}),
     )
 
     def __init__(self, *args, user=None, **kwargs):
         super().__init__(*args, **kwargs)
         if user is not None:
             if "category" in self.fields:
-                self.fields["category"].queryset = Category.objects.filter(user=user).order_by("name")
+                self.fields["category"].queryset = Category.objects.filter(
+                    user=user
+                ).order_by("name")
             if "tag" in self.fields:
-                self.fields["tag"].queryset = Tag.objects.filter(user=user).order_by("name")
+                self.fields["tag"].queryset = Tag.objects.filter(user=user).order_by(
+                    "name"
+                )
         if "sort" not in self.data:
             self.fields["sort"].initial = "-date"
 
@@ -136,9 +140,7 @@ class TagForm(forms.ModelForm):
                     "placeholder": "e.g., Travel / Repair / Car",
                 }
             ),
-            "color": forms.Select(
-                attrs={"class": "form-select"}
-            ),
+            "color": forms.Select(attrs={"class": "form-select"}),
         }
 
 

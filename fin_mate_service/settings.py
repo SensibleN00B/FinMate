@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+
 import os
 from decimal import Decimal
 from pathlib import Path
@@ -94,7 +95,6 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
-            "debug": True,
         },
     },
 ]
@@ -105,13 +105,24 @@ WSGI_APPLICATION = "fin_mate_service.wsgi.application"
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DB_ENGINE = env("DB_ENGINE", default="sqlite").lower()
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / env("DB_NAME", default="db.sqlite3"),
+if DB_ENGINE == "postgres":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env("DB_NAME"),
+            "USER": env("DB_USER"),
+            "PASSWORD": env("DB_PASSWORD"),
+            "HOST": env("DB_HOST", default="localhost"),
+            "PORT": env("DB_PORT", default="5432"),
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / env("DB_NAME", default="db.sqlite3"),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -199,11 +210,13 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http" if DEBUG else "https"
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "[FinMate] "
 
-EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend")
+EMAIL_BACKEND = os.getenv(
+    "EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
+)
 EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
 EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
 EMAIL_USE_TLS = env("EMAIL_USE_TLS")
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "sensible.noob@gamil.com")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "sensible.noob@gmail.com")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
 DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", f"FinMate <{EMAIL_HOST_USER}>")
 EMAIL_TIMEOUT = int(os.getenv("EMAIL_TIMEOUT", "30"))
@@ -214,9 +227,7 @@ LOGOUT_REDIRECT_URL = os.getenv("LOGOUT_REDIRECT_URL", "/")
 
 CSRF_TRUSTED_ORIGINS = [
                            f"http://{h}" for h in ALLOWED_HOSTS if h and h not in {"127.0.0.1", "localhost"}
-                       ] + [
-                           f"https://{h}" for h in ALLOWED_HOSTS if h and h not in {"127.0.0.1", "localhost"}
-                       ]
+                       ] + [f"https://{h}" for h in ALLOWED_HOSTS if h and h not in {"127.0.0.1", "localhost"}]
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -237,5 +248,5 @@ FX_CACHE_SECONDS = 60 * 60 * 12
 CURRENCY_RATES = {
     "UAH": Decimal("1"),
     "USD": Decimal("41.20"),
-    "EUR": Decimal("45.00"),
+    "EUR": Decimal("48.00"),
 }
