@@ -1,73 +1,83 @@
-📊 FinMate — Personal Finance Manager
+<p align="center">
+  <img src="static/img/finmate-mark.svg" alt="FinMate logo" width="500">
+</p>
 
-FinMate is a simple yet powerful web application built with Django that helps users track their income, expenses, and budgets.
-The goal of the project is to provide a clear overview of personal finances and empower users to make smarter financial decisions.
 
-✨ Features
+**FinMate** is a personal finance tracking web application built with **Django**.  
+It helps you take control of your finances by managing budgets, tracking expenses, and visualizing your spending habits.
 
-User authentication – each user has a personal account and private data.
+---
 
-Transactions – add, edit, and delete income or expense records with descriptions.
+## ✨ Features
 
-Categories – organize transactions into categories (Food, Transport, Salary, etc.).
+- 📊 **Dashboard with charts** — visualize your income, expenses, and balance trends  
+- 💵 **Expense & income tracking** — record all your transactions in one place  
+- 🗂 **Categories & budgets** — create category-based monthly budgets  
+- 📅 **Period analysis** — filter and analyze data by month or custom date range  
+- 🔑 **Authentication** — secure login & registration with **django-allauth**  
+- ⚡ **User-friendly interface** — clean design with **Bootstrap 5** and **Chart.js**  
 
-Budgets – set monthly limits for specific categories and track spending progress.
+---
 
-Dashboard – view your balance, monthly spending, and top categories with charts.
+## 🛠 Tech Stack
 
-Filtering & search – easily find transactions by type, date, or category.
+- **Backend:** Python, Django, Django ORM, **django-allauth**  
+- **Database:** PostgreSQL (or SQLite for local development)  
+- **Frontend:** Bootstrap 5, Chart.js  
+- **Tools:** Git, GitHub
 
-✨ Optional Features
+---
 
-Export to CSV/PDF – download expense reports in a convenient format for sharing or archiving.
+## 🚀 Getting Started
 
-REST API (DRF) – programmatic access to transactions and budgets, useful for integrations with mobile apps or third-party tools.
+### 1. Clone the repository
+```bash
 
-PWA Support – install the app on mobile/desktop and use it like a native application.
+git clone https://github.com/SensibleN00B/FinMate.git
+cd FinMate
+```
 
-AI-powered Insights – the system can analyze spending habits and suggest improvements, detect unusual expenses, or forecast next month’s budget. Initially rule-based, later expandable with ML/LLM for smarter recommendations.
 
-🏗 Tech Stack
+2. Create & activate virtual environment
+```bash
 
-Backend: Django, Django ORM
-
-Database: SQLite (development), PostgreSQL (production-ready)
-
-Frontend: Bootstrap 5, Chart.js
-
-Other: Django Messages, Django Auth, Draw.io (DB diagram)
-
-📂 Project Structure
-
-User – authentication and profile management
-
-Category – user-defined categories for expenses/income
-
-Transaction – stores all user financial operations
-
-Budget – monthly spending limits linked to categories
-
-📸 Screenshots
-
-(to be added after implementation)
-
-Dashboard with charts
-
-Transaction list with filters
-
-Category management
-
-Budget progress
-
-🚀 How to Run Locally
-git clone https://github.com/your-username/finmate-django.git
-cd finmate-django
 python -m venv venv
-source venv/bin/activate  # on Windows: venv\Scripts\activate
+source venv/bin/activate  # on Linux/Mac
+venv\Scripts\activate     # on Windows
+```
+
+3. Install dependencies
+```bash
+
 pip install -r requirements.txt
+```
+
+4. Configure environment variables. Create a .env file in the root directory with the following variables:
+```bash
+
+SECRET_KEY=your-secret-key
+DEBUG=True
+DATABASE_URL=postgres://user:password@localhost:5432/finmate
+```
+
+5. Apply migrations
+```bash
+
 python manage.py migrate
+```
+
+6. Create superuser
+```bash
+
 python manage.py createsuperuser
+```
+
+7. Run the development server
+```bash
+
 python manage.py runserver
+```
 
 
-Visit http://127.0.0.1:8000/
+Now open http://127.0.0.1:8000/
+ in your browser 🎉
