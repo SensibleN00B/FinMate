@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -93,7 +94,7 @@ ACCOUNT_LOGIN_METHODS = {"email"}
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*", "username"]
-SITE_ID = int(os.getenv("SITE_ID", "1"))
+SITE_ID = 1
 
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "[FinMate] "
 
@@ -124,9 +125,3 @@ FX_BASE_CURRENCY = "UAH"
 FX_CACHE_SECONDS = 60 * 60 * 12
 CURRENCY_RATES = {"UAH": Decimal("1"), "USD": Decimal("41.20"), "EUR": Decimal("48.00")}
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
