@@ -68,6 +68,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Europe/Kyiv"
 USE_I18N = True
@@ -93,6 +98,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 ACCOUNT_LOGIN_METHODS = {"email"}
 ACCOUNT_LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SIGNUP_FIELDS = ["email*", "password1*", "password2*", "username"]
 SITE_ID = 1
 
@@ -124,4 +130,3 @@ CACHES = {
 FX_BASE_CURRENCY = "UAH"
 FX_CACHE_SECONDS = 60 * 60 * 12
 CURRENCY_RATES = {"UAH": Decimal("1"), "USD": Decimal("41.20"), "EUR": Decimal("48.00")}
-
