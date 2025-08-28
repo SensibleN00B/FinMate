@@ -35,8 +35,8 @@ https://fin-mate-4a1s.onrender.com
 
 ## 🔑 Test account
 
-- **Email:** `demo@finmate.app`
-- **Password:** `demo12345`
+- **Email:** `pullarserbxx.n.ko.18.43@gmail.com`
+- **Password:** `1qazcde3`
 
 ---
 
