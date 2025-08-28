@@ -28,6 +28,18 @@ Some demo screenshots of **FinMate** in action:
 
 ---
 
+## 🚀 Live demo
+https://fin-mate-4a1s.onrender.com
+
+---
+
+## 🔑 Test account
+
+- **Email:** `demo@finmate.app`
+- **Password:** `demo12345`
+
+---
+
 ## ✨ Features
 
 - 📊 **Dashboard with charts** — visualize your income, expenses, and balance trends  
@@ -100,3 +112,7 @@ python manage.py runserver
 
 Now open http://127.0.0.1:8000/
  in your browser 🎉
+
+Test user:
+
+    https://fin-mate-4a1s.onrender.com/
