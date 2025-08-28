@@ -34,7 +34,7 @@ def month_summary(user, start, end):
             total += (row["total"] * rate).quantize(Decimal("0.01"))
         return total
 
-    income = sum_in_base(month_tx.filter(type=Transaction.TransactionType.INCOME))
+    income = sum_in_base(month_tx.public().filter(type=Transaction.TransactionType.INCOME))
     expenses = sum_in_base(month_tx.filter(type=Transaction.TransactionType.EXPENSE))
     net = income - expenses
 
