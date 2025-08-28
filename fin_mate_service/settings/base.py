@@ -6,7 +6,7 @@ from django.contrib.messages import constants as messages
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-env = environ.Env(DEBUG=(bool, True))
+env = environ.Env()
 environ.Env.read_env(BASE_DIR / ".env")
 
 SECRET_KEY = env("SECRET_KEY")
