@@ -347,7 +347,3 @@ poetry.toml
 
 # LSP config files
 pyrightconfig.json
-
-#Secrets
-secrets/
-*.json
