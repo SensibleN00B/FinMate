@@ -1,0 +1,20 @@
+<svg width="640" height="160" viewBox="0 0 640 160" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FinMate logo (dark)">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6D5EFC"></stop>
+      <stop offset="100%" stop-color="#16C784"></stop>
+    </linearGradient>
+  </defs>
+
+  <rect x="16" y="16" width="128" height="128" rx="28" fill="url(#g)"></rect>
+  <path d="M48 108 L76 80 L100 92 L124 58" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"></path>
+  <circle cx="48" cy="108" r="6" fill="white"></circle>
+  <circle cx="76" cy="80" r="6" fill="white"></circle>
+  <circle cx="100" cy="92" r="6" fill="white"></circle>
+  <circle cx="124" cy="58" r="6" fill="white"></circle>
+
+  <g transform="translate(168,44)">
+    <text x="0" y="52" font-family="Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial" font-weight="700" font-size="56" fill="#EAF0FF">FinMate</text>
+    <rect x="0" y="72" width="140" height="8" rx="4" fill="url(#g)"></rect>
+  </g>
+</svg>

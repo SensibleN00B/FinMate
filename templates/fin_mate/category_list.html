@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3">Categories</h1>
+    <a class="btn btn-primary btn-sm" href="{% url 'fin_mate:category-create' %}">New category</a>
+  </div>
+
+  <ul class="list-group list-hover">
+    {% for c in categories %}
+      <li class="list-group-item d-flex align-items-center justify-content-between">
+        <div class="fw-semibold">{{ c.name }}</div>
+        <div class="btn-group">
+          <a class="btn btn-sm btn-outline-secondary" href="{% url 'fin_mate:category-update' c.pk %}">Edit</a>
+          <a class="btn btn-sm btn-outline-danger" href="{% url 'fin_mate:category-delete' c.pk %}">Delete</a>
+        </div>
+      </li>
+    {% empty %}
+      <li class="list-group-item text-muted">No categories yet.</li>
+    {% endfor %}
+  </ul>
+
+  {% include "includes/pagination.html" %}
+{% endblock %}

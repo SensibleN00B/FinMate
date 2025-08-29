@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load socialaccount %}
+{% load widget_tweaks %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-4">
+        <h1 class="h4 text-center mb-3">Sign in</h1>
+
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger" role="alert">
+            {{ form.non_field_errors }}
+          </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'account_login' %}">
+          {% csrf_token %}
+
+          {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
+          {% endif %}
+
+          <div class="mb-3">
+            <label class="form-label" for="{{ form.login.id_for_label }}">Email</label>
+            {% render_field form.login class+="form-control" placeholder="you@example.com" %}
+            {% for error in form.login.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="mb-2">
+            <label class="form-label" for="{{ form.password.id_for_label }}">Password</label>
+            {% render_field form.password class+="form-control" %}
+            {% for error in form.password.errors %}
+              <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="form-check">
+              {% render_field form.remember class+="form-check-input" %}
+              <label class="form-check-label" for="{{ form.remember.id_for_label }}">Remember me</label>
+            </div>
+            <a class="small" href="{% url 'account_reset_password' %}">Forgot password?</a>
+          </div>
+
+          <button class="btn btn-primary w-100" type="submit">Sign in</button>
+        </form>
+
+        <div class="text-center my-3 text-muted">or</div>
+
+        <a class="btn btn-outline-danger w-100" href="{% provider_login_url 'google' %}">
+          <i class="bi bi-google me-1"></i> Continue with Google
+        </a>
+
+        <p class="text-center mt-3 mb-0">
+          <small>
+            Don’t have an account?
+            <a href="{% url 'account_signup' %}">Sign up</a>
+          </small>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

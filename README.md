@@ -1,63 +1,114 @@
-📊 FinMate — Personal Finance Manager
+<p align="center">
+  <img src="static/img/finmate-mark.svg" alt="FinMate logo" width="500">
+</p>
 
-FinMate is a simple yet powerful web application built with Django that helps users track their income, expenses, and budgets.
-The goal of the project is to provide a clear overview of personal finances and empower users to make smarter financial decisions.
 
-✨ Features
+**FinMate** is a personal finance tracking web application built with **Django**.  
+It helps you take control of your finances by managing budgets, tracking expenses, and visualizing your spending habits.
 
-User authentication – each user has a personal account and private data.
+## 📸 Screenshots
 
-Transactions – add, edit, and delete income or expense records with descriptions.
+Some demo screenshots of **FinMate** in action:
 
-Categories – organize transactions into categories (Food, Transport, Salary, etc.).
+| Dashboard | Dashboard p2 |
+|---------------------------------------------------|--------------|
+| <img src="demo/1.png" alt="Dashboard" width="500"/> | <img src="demo/2.png" alt="Budgets" width="500"/> |
 
-Budgets – set monthly limits for specific categories and track spending progress.
+| Accounts   | Transactions |
+|-------------------------------------------------------|--------------------------------------------------|
+| <img src="demo/3.png" alt="Transactions" width="500"/> | <img src="demo/4.png" alt="Reports" width="500"/> |
 
-Dashboard – view your balance, monthly spending, and top categories with charts.
+| Categories | Tags |
+|------------|----------------------------------------------------------|
+| <img src="demo/5.png" alt="Categories" width="500"/> | <img src="demo/6.png" alt="Add Transaction" width="500"/> |
 
-Filtering & search – easily find transactions by type, date, or category.
+| Budgets | Log in  |
+|---------------------------------------------------|---------------------------------------------------|
+| <img src="demo/7.png" alt="Profile" width="500"/> | <img src="demo/8.png" alt="Settings" width="500"/> |
 
-🏗 Tech Stack
+---
 
-Backend: Django, Django ORM
+## 🚀 Live demo
+https://fin-mate-4a1s.onrender.com
 
-Database: SQLite (development), PostgreSQL (production-ready)
+---
 
-Frontend: Bootstrap 5, Chart.js
+## 🔑 Test account
 
-Other: Django Messages, Django Auth, Draw.io (DB diagram)
+- **Email:** `pullarserbxx.n.ko.18.43@gmail.com`
+- **Password:** `1qazcde3`
 
-📂 Project Structure
+---
 
-User – authentication and profile management
+## ✨ Features
 
-Category – user-defined categories for expenses/income
+- 📊 **Dashboard with charts** — visualize your income, expenses, and balance trends  
+- 💵 **Expense & income tracking** — record all your transactions in one place  
+- 🗂 **Categories & budgets** — create category-based monthly budgets  
+- 📅 **Period analysis** — filter and analyze data by month or custom date range  
+- 🔑 **Authentication** — secure login & registration with **django-allauth**  
+- ⚡ **User-friendly interface** — clean design with **Bootstrap 5** and **Chart.js**  
 
-Transaction – stores all user financial operations
+---
 
-Budget – monthly spending limits linked to categories
+## 🛠 Tech Stack
 
-📸 Screenshots
+- **Backend:** Python, Django, Django ORM, **django-allauth**  
+- **Database:** PostgreSQL (or SQLite for local development)  
+- **Frontend:** Bootstrap 5, Chart.js  
+- **Tools:** Git, GitHub
 
-(to be added after implementation)
+---
 
-Dashboard with charts
+## 🚀 Getting Started
 
-Transaction list with filters
+### 1. Clone the repository
+```bash
 
-Category management
+git clone https://github.com/SensibleN00B/FinMate.git
+cd FinMate
+```
 
-Budget progress
 
-🚀 How to Run Locally
-git clone https://github.com/your-username/finmate-django.git
-cd finmate-django
+2. Create & activate virtual environment
+```bash
+
 python -m venv venv
-source venv/bin/activate  # on Windows: venv\Scripts\activate
+source venv/bin/activate  # on Linux/Mac
+venv\Scripts\activate     # on Windows
+```
+
+3. Install dependencies
+```bash
+
 pip install -r requirements.txt
+```
+
+4. Configure environment variables. Create a .env file in the root directory with the following variables:
+```bash
+
+SECRET_KEY=your-secret-key
+DEBUG=True
+DATABASE_URL=postgres://user:password@localhost:5432/finmate
+```
+
+5. Apply migrations
+```bash
+
 python manage.py migrate
+```
+
+6. Create superuser
+```bash
+
 python manage.py createsuperuser
+```
+
+7. Run the development server
+```bash
+
 python manage.py runserver
+```
 
-
-Visit http://127.0.0.1:8000/
+Now open http://127.0.0.1:8000/
+ in your browser 🎉

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load querystring %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3">Transactions</h1>
+    <a class="btn btn-primary btn-sm" href="{% url 'fin_mate:transaction-create' %}">New transaction</a>
+  </div>
+
+  <form id="filters" method="get" class="row row-cols-lg-auto g-2 align-items-end mb-3">
+    <div>
+      <label class="form-label mb-1">From</label>
+      {{ filter_form.date_from }}
+    </div>
+    <div>
+      <label class="form-label mb-1">To</label>
+      {{ filter_form.date_to }}
+    </div>
+    <div>
+      <label class="form-label mb-1">Category</label>
+      {{ filter_form.category }}
+    </div>
+    <div>
+      <label class="form-label mb-1">Tag</label>
+      {{ filter_form.tag }}
+    </div>
+    <div>
+      <label class="form-label mb-1">Type</label>
+      {{ filter_form.type }}
+    </div>
+    <div>
+      <label class="form-label mb-1">Sort</label>
+      {{ filter_form.sort }}
+    </div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-secondary">Apply</button>
+      <a class="btn btn-outline-danger" href="{% url 'fin_mate:transaction-list' %}">Reset</a>
+    </div>
+  </form>
+
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+      <tr>
+        <th>Date
+        </th>
+        <th>Type</th>
+        <th>Amount
+        </th>
+        <th>Account</th>
+        <th>Category</th>
+        <th>Tags</th>
+        <th></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      {% for tx in transactions %}
+        <tr>
+          <td>{{ tx.date|date:"Y-m-d" }}</td>
+          <td>
+            {% if tx.type == 'INCOME' %}
+              <span class="badge text-bg-success">Income</span>
+            {% else %}
+              <span class="badge text-bg-danger">Expense</span>
+            {% endif %}
+          </td>
+          <td>{{ tx.amount }}</td>
+          <td>{{ tx.account.name }}</td>
+          <td>{{ tx.category.name }}</td>
+          <td>
+            {% for tt in tx.transactiontag_set.all %}
+              <span class="badge text-bg-{{ tt.color|default:tt.tag.color|default:'secondary' }}">
+                {{ tt.tag.name }}
+              </span>
+            {% empty %}
+              <span class="text-muted">—</span>
+            {% endfor %}
+          </td>
+          <td class="text-end">
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'fin_mate:transaction-detail' tx.pk %}">Open</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="7" class="text-center text-muted">No transactions yet.</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% include "includes/pagination.html" %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3">Accounts</h1>
+    <a class="btn btn-primary btn-sm" href="{% url 'fin_mate:account-create' %}">New account</a>
+  </div>
+
+  <ul class="list-group list-hover">
+    {% for acc in accounts %}
+      <li class="list-group-item d-flex align-items-center justify-content-between position-relative">
+        <div class="me-3">
+          <div class="fw-semibold">{{ acc.name }}</div>
+          <small class="text-muted">{{ acc.get_type_display }} · {{ acc.currency }}</small>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge text-bg-secondary">{{ acc.annotated_balance }}</span>
+          <i class="bi bi-chevron-right chevron"></i>
+        </div>
+
+        <a class="stretched-link" href="{% url 'fin_mate:account-detail' acc.pk %}"
+           aria-label="Open {{ acc.name }}"></a>
+      </li>
+    {% empty %}
+      <li class="list-group-item text-muted">No accounts yet.</li>
+    {% endfor %}
+  </ul>
+
+  {% include "includes/pagination.html" %}
+{% endblock %}

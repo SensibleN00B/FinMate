@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="h3">Budgets</h1>
+    <div class="d-flex gap-2">
+      <form method="get" class="d-flex gap-2">
+        <label>
+          <input name="period" type="month" class="form-control form-control-sm" value="{{ period_str }}">
+        </label>
+        <button class="btn btn-outline-secondary btn-sm">Apply</button>
+      </form>
+      <a class="btn btn-primary btn-sm" href="{% url 'fin_mate:budget-create' %}">New budget</a>
+    </div>
+  </div>
+
+  {% if not has_budgets %}
+    <div class="alert alert-info d-flex justify-content-between align-items-center">
+      <div>
+        No budgets for <strong>{{ period|date:"Y-m" }}</strong>.
+        Copy from <strong>{{ prev_period_str }}</strong>?
+      </div>
+      <form method="post" action="{% url 'fin_mate:budget-copy' %}">
+        {% csrf_token %}
+        <input type="hidden" name="period" value="{{ period_str }}">
+        <button class="btn btn-sm btn-primary">
+          <i class="bi bi-files" aria-hidden="true"></i> Copy from {{ prev_period_str }}
+        </button>
+      </form>
+    </div>
+  {% endif %}
+
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+      <tr>
+        <th>Period</th>
+        <th>Category</th>
+        <th>Limit</th>
+        <th>Spent</th>
+        <th>Progress</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      {% for b in budgets %}
+        <tr>
+          <td>{{ b.period|date:"Y-m" }}</td>
+          <td>{{ b.category.name }}</td>
+          <td>{{ b.limit }}</td>
+          <td>{{ b.spent_amount }}</td>
+          <td style="min-width:220px;">
+            {% with p=b.progress|floatformat:0 %}
+              <div class="progress" role="progressbar"
+                   aria-valuenow="{{ p }}" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar
+                  {% if p|add:'0' > 100 %}pg-red
+                  {% elif p|add:'0' >= 80 %}pg-amber
+                  {% else %}pg-green
+                  {% endif %}"
+                     style="width: {{ p }}%">
+                  {{ p }}%
+                </div>
+              </div>
+            {% endwith %}
+
+          </td>
+          <td class="text-end">
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'fin_mate:budget-detail' b.pk %}">Open</a>
+          </td>
+        </tr>
+      {% empty %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% include "includes/pagination.html" %}
+{% endblock %}
