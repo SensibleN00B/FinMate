@@ -20,9 +20,9 @@ def _fetch_nbu(date_):
     """
     url = f"https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?date={date_.strftime('%Y%m%d')}&json"
     try:
-        r = requests.get(url, timeout=10)
-        r.raise_for_status()
-        data = r.json()
+        request = requests.get(url, timeout=10)
+        request.raise_for_status()
+        data = request.json()
     except Exception:
         return {}
 

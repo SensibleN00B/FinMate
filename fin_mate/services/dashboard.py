@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db.models import Sum
 
 from fin_mate.models import Account, Transaction, Budget
-from fin_mate.services.fx import get_rates
+from fin_mate.services.foreign_exchange import get_rates
 
 
 def month_summary(user, start, end):

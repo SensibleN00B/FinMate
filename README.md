@@ -62,13 +62,12 @@ https://fin-mate-4a1s.onrender.com
 
 ## 🚀 Getting Started
 
-### 1. Clone the repository
+1. Clone the repository
 ```bash
 
 git clone https://github.com/SensibleN00B/FinMate.git
 cd FinMate
 ```
-
 
 2. Create & activate virtual environment
 ```bash
