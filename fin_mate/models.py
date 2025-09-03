@@ -69,6 +69,9 @@ class Transaction(models.Model):
         if self.account.user_id != self.category.user_id:
             raise ValidationError("Account and Category must belong to the same user.")
 
+        if self.amount is not None and self.amount <= 0:
+            raise ValidationError(f"Transaction amount must be greater than zero, not {self.amount}")
+
     class Meta:
         ordering = ["-date"]
         indexes = [
