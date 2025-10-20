@@ -1,0 +1,134 @@
+<mxfile host="drawio-plugin" modified="2025-08-27T16:31:41.858Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" version="22.1.22" etag="_KwOC-120tkdphRcHtG0" type="embed">
+  <diagram id="waUKW8TNBuKmT5U_oM7n" name="Page-1">
+    <mxGraphModel dx="2527" dy="1074" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="node2" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;accounts_user&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; password: varchar(128)&lt;br/&gt; last_login: datetime&lt;br/&gt; is_superuser: bool&lt;br/&gt; username: varchar(150)&lt;br/&gt; first_name: varchar(150)&lt;br/&gt; last_name: varchar(150)&lt;br/&gt; is_staff: bool&lt;br/&gt; is_active: bool&lt;br/&gt; date_joined: datetime&lt;br/&gt; email: varchar(254)&lt;br/&gt; ai_tips_enabled: bool&lt;br/&gt; plan: varchar(10)&lt;br/&gt; stripe_customer_id: varchar(64)&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; id: integer&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;" parent="1" vertex="1">
+          <mxGeometry x="-372" y="31" width="226" height="376" as="geometry" />
+        </mxCell>
+        <mxCell id="node4" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;fin_mate_account&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; name: varchar(63)&lt;br/&gt; currency: varchar(3)&lt;br/&gt; type: varchar(10)&lt;br/&gt; user_id: bigint&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; id: integer&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;" parent="1" vertex="1">
+          <mxGeometry x="-60" y="247" width="184" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="node6" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;fin_mate_budget&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; limit: decimal&lt;br/&gt; notes: text&lt;br/&gt; user_id: bigint&lt;br/&gt; category_id: bigint&lt;br/&gt; period: date&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; id: integer&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;" parent="1" vertex="1">
+          <mxGeometry x="211" y="745" width="176" height="184" as="geometry" />
+        </mxCell>
+        <mxCell id="node0" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;fin_mate_category&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; name: varchar(63)&lt;br/&gt; created_at: datetime&lt;br/&gt; updated_at: datetime&lt;br/&gt; user_id: bigint&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; id: integer&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;" parent="1" vertex="1">
+          <mxGeometry x="221" y="481" width="192" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="node5" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;fin_mate_tag&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; name: varchar(32)&lt;br/&gt; user_id: bigint&lt;br/&gt; color: varchar(10)&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; id: integer&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;" parent="1" vertex="1">
+          <mxGeometry x="-40" y="588" width="144" height="147" as="geometry" />
+        </mxCell>
+        <mxCell id="node1" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;fin_mate_transaction&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; amount: decimal&lt;br/&gt; type: varchar(10)&lt;br/&gt; date: datetime&lt;br/&gt; description: text&lt;br/&gt; account_id: bigint&lt;br/&gt; category_id: bigint&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; id: integer&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;" parent="1" vertex="1">
+          <mxGeometry x="-438" y="588" width="212" height="208" as="geometry" />
+        </mxCell>
+        <mxCell id="node3" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;fin_mate_transactiontag&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; created_at: datetime&lt;br/&gt; added_by_id: bigint&lt;br/&gt; tag_id: bigint&lt;br/&gt; transaction_id: bigint&lt;/p&gt;&lt;hr size=&quot;1&quot;/&gt;&lt;p style=&quot;margin:0 0 0 4px;line-height:1.6;&quot;&gt; id: integer&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=14;fontFamily=Helvetica;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=#B2C9AB;strokeColor=#788AA3;fontColor=#46495D;" parent="1" vertex="1">
+          <mxGeometry x="-151" y="801" width="240" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="edge1" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#788AA3;exitX=0.500;exitY=1.000;exitDx=0;exitDy=0;entryX=1.000;entryY=0.500;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node4" target="node2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="32" y="433" />
+              <mxPoint x="548" y="433" />
+              <mxPoint x="548" y="219" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label8" value="user_id:id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#788AA3;labelBackgroundColor=none;fontColor=#46495D;" parent="edge1" vertex="1" connectable="0">
+          <mxGeometry x="480" y="407" as="geometry" />
+        </mxCell>
+        <mxCell id="edge2" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#788AA3;exitX=1.000;exitY=0.500;exitDx=0;exitDy=0;entryX=1.000;entryY=0.380;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node6" target="node2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="563" y="837" />
+              <mxPoint x="563" y="174" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label14" value="user_id:id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#788AA3;labelBackgroundColor=none;fontColor=#46495D;" parent="edge2" vertex="1" connectable="0">
+          <mxGeometry x="365" y="154" as="geometry" />
+        </mxCell>
+        <mxCell id="edge4" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#788AA3;exitX=0.603;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node6" target="node0" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label26" value="category_id:id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#788AA3;labelBackgroundColor=none;fontColor=#46495D;" parent="edge4" vertex="1" connectable="0">
+          <mxGeometry x="273" y="747" as="geometry" />
+        </mxCell>
+        <mxCell id="edge6" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#788AA3;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=1.000;entryY=0.420;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node0" target="node2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="317" y="189" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label38" value="user_id:id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#788AA3;labelBackgroundColor=none;fontColor=#46495D;" parent="edge6" vertex="1" connectable="0">
+          <mxGeometry x="221" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="edge5" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#788AA3;exitX=0.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.723;entryY=1.000;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node5" target="node2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-209" y="656" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label32" value="user_id:id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#788AA3;labelBackgroundColor=none;fontColor=#46495D;" parent="edge5" vertex="1" connectable="0">
+          <mxGeometry x="-200" y="561" as="geometry" />
+        </mxCell>
+        <mxCell id="edge9" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#788AA3;exitX=0.429;exitY=0.000;exitDx=0;exitDy=0;entryX=0.238;entryY=1.000;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node1" target="node4" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-347" y="478" />
+              <mxPoint x="-16" y="478" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label56" value="account_id:id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#788AA3;labelBackgroundColor=none;fontColor=#46495D;" parent="edge9" vertex="1" connectable="0">
+          <mxGeometry x="-110" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="edge0" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#788AA3;exitX=0.500;exitY=0.000;exitDx=0;exitDy=0;entryX=0.000;entryY=0.541;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node1" target="node0" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-332" y="531" />
+              <mxPoint x="105" y="531" />
+              <mxPoint x="105" y="567" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label2" value="category_id:id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#788AA3;labelBackgroundColor=none;fontColor=#46495D;" parent="edge0" vertex="1" connectable="0">
+          <mxGeometry x="-151" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="edge3" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#788AA3;exitX=0.000;exitY=0.500;exitDx=0;exitDy=0;entryX=0.000;entryY=0.500;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node3" target="node2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-516" y="881" />
+              <mxPoint x="-516" y="219" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label20" value="added_by_id:id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#788AA3;labelBackgroundColor=none;fontColor=#46495D;" parent="edge3" vertex="1" connectable="0">
+          <mxGeometry x="-513" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="edge8" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#788AA3;exitX=0.764;exitY=0.000;exitDx=0;exitDy=0;entryX=0.500;entryY=1.000;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node3" target="node5" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label50" value="tag_id:id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#788AA3;labelBackgroundColor=none;fontColor=#46495D;" parent="edge8" vertex="1" connectable="0">
+          <mxGeometry x="50" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="edge7" value="" style="html=1;rounded=1;edgeStyle=orthogonalEdgeStyle;dashed=0;startArrow=none;endArrow=block;endSize=12;strokeColor=#788AA3;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=1.000;entryY=0.869;entryDx=0;entryDy=0;labelBackgroundColor=none;fontColor=default;" parent="1" source="node3" target="node1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-90" y="769" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="label44" value="transaction_id:id" style="edgeLabel;resizable=0;html=1;align=left;verticalAlign=top;strokeColor=#788AA3;labelBackgroundColor=none;fontColor=#46495D;" parent="edge7" vertex="1" connectable="0">
+          <mxGeometry x="-146" y="747" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

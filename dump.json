@@ -1,0 +1,1571 @@
+[
+{
+    "model": "accounts.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$PVsbXJSuAaT6uJZUJflgfJ$GxC/Wdf03B/wXph/8dTKve7kL4yhYvDBcd+5+F6IetU=",
+        "last_login": "2025-08-27T19:22:00.649Z",
+        "is_superuser": true,
+        "username": "sensible",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2025-08-21T18:32:58.761Z",
+        "email": "sensible.noob@gmail.com",
+        "ai_tips_enabled": false,
+        "plan": "FREE",
+        "stripe_customer_id": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$zADymP6ArKHczlXTclsJox$IacKE1F4ozZCp4JsprXMzG3TpGe6U4AWRVdkK1HPPa0=",
+        "last_login": "2025-08-27T19:20:52.223Z",
+        "is_superuser": false,
+        "username": "abeliy1906",
+        "first_name": "Андрій",
+        "last_name": "Бєлий",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-08-21T20:15:36.465Z",
+        "email": "abeliy1906@gmail.com",
+        "ai_tips_enabled": false,
+        "plan": "FREE",
+        "stripe_customer_id": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$lutHpAO0UdajvO7qvBcG4n$mXL+QpUL+5zlNHbWL6RDSV3qgQkyyZ0ldA8nRpmtCBE=",
+        "last_login": "2025-08-26T14:07:59.957Z",
+        "is_superuser": false,
+        "username": "testttt",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-08-26T14:07:59.652Z",
+        "email": "bergamineurtoni.l.x.t.794.9@gmail.com",
+        "ai_tips_enabled": false,
+        "plan": "FREE",
+        "stripe_customer_id": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$nw62q5s1CdVdAxIqFRBr8o$R3OYteQZYBPXZHYhZP1SJhp8Jv3nTCPj7cP6ZqNuHd4=",
+        "last_login": "2025-08-26T15:17:32.577Z",
+        "is_superuser": false,
+        "username": "jkhgkjhgkjhg",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-08-26T15:16:09.002Z",
+        "email": "george11wils.o.n725.1@gmail.com",
+        "ai_tips_enabled": false,
+        "plan": "FREE",
+        "stripe_customer_id": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$b9zMIsXpaB5pCikC8Tn7Ic$2rNlpuBPA4GuRP8RtHGXOYm7uoJjVbrZQa0ocsmixfE=",
+        "last_login": "2025-08-26T16:14:05.653Z",
+        "is_superuser": false,
+        "username": "brumettmarcinkoz.yk.e8.3.14",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-08-26T16:13:25.145Z",
+        "email": "brumettmarcinkoz.yk.e8.3.14@gmail.com",
+        "ai_tips_enabled": false,
+        "plan": "FREE",
+        "stripe_customer_id": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "accounts.user",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$HUmv3Rh0HkLFD0ODgJ4IKM$gfrBGaBeHs34scHmX4Taz/VNw3cUy6IyYcQZjkP9faY=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "Chlen",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2025-08-26T17:19:09.094Z",
+        "email": "feagenpulfr.ey.dj.325@gmail.com",
+        "ai_tips_enabled": false,
+        "plan": "FREE",
+        "stripe_customer_id": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 1,
+    "fields": {
+        "name": "Food",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 2,
+    "fields": {
+        "name": "Transport",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 3,
+    "fields": {
+        "name": "Salary",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 4,
+    "fields": {
+        "name": "Entertainment",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 5,
+    "fields": {
+        "name": "Health",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 6,
+    "fields": {
+        "name": "Clothing",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 7,
+    "fields": {
+        "name": "Investment",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 8,
+    "fields": {
+        "name": "Donations",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 9,
+    "fields": {
+        "name": "Insurance",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 10,
+    "fields": {
+        "name": "Home & Renovation",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 11,
+    "fields": {
+        "name": "Digital Goods",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 12,
+    "fields": {
+        "name": "Utilities",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 13,
+    "fields": {
+        "name": "Beauty",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 14,
+    "fields": {
+        "name": "Sport",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-21T18:32:59.022Z",
+        "updated_at": "2025-08-21T18:32:59.022Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 15,
+    "fields": {
+        "name": "Food",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 16,
+    "fields": {
+        "name": "Transport",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 17,
+    "fields": {
+        "name": "Salary",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 18,
+    "fields": {
+        "name": "Entertainment",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 19,
+    "fields": {
+        "name": "Health",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 20,
+    "fields": {
+        "name": "Clothing",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 21,
+    "fields": {
+        "name": "Investment",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 22,
+    "fields": {
+        "name": "Donations",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 23,
+    "fields": {
+        "name": "Insurance",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 24,
+    "fields": {
+        "name": "Home & Renovation",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 25,
+    "fields": {
+        "name": "Digital Goods",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 26,
+    "fields": {
+        "name": "Utilities",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 27,
+    "fields": {
+        "name": "Beauty",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 28,
+    "fields": {
+        "name": "Sport",
+        "user": 2,
+        "is_system": false,
+        "created_at": "2025-08-21T20:15:36.479Z",
+        "updated_at": "2025-08-21T20:15:36.479Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 29,
+    "fields": {
+        "name": "Wife",
+        "user": 1,
+        "is_system": false,
+        "created_at": "2025-08-24T11:17:15.743Z",
+        "updated_at": "2025-08-24T11:17:15.743Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 30,
+    "fields": {
+        "name": "Food",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 31,
+    "fields": {
+        "name": "Transport",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 32,
+    "fields": {
+        "name": "Salary",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 33,
+    "fields": {
+        "name": "Entertainment",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 34,
+    "fields": {
+        "name": "Health",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 35,
+    "fields": {
+        "name": "Clothing",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 36,
+    "fields": {
+        "name": "Investment",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 37,
+    "fields": {
+        "name": "Donations",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 38,
+    "fields": {
+        "name": "Insurance",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 39,
+    "fields": {
+        "name": "Home & Renovation",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 40,
+    "fields": {
+        "name": "Digital Goods",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 41,
+    "fields": {
+        "name": "Utilities",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 42,
+    "fields": {
+        "name": "Beauty",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 43,
+    "fields": {
+        "name": "Sport",
+        "user": 3,
+        "is_system": false,
+        "created_at": "2025-08-26T14:07:59.922Z",
+        "updated_at": "2025-08-26T14:07:59.922Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 44,
+    "fields": {
+        "name": "Food",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 45,
+    "fields": {
+        "name": "Transport",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 46,
+    "fields": {
+        "name": "Salary",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 47,
+    "fields": {
+        "name": "Entertainment",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 48,
+    "fields": {
+        "name": "Health",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 49,
+    "fields": {
+        "name": "Clothing",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 50,
+    "fields": {
+        "name": "Investment",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 51,
+    "fields": {
+        "name": "Donations",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 52,
+    "fields": {
+        "name": "Insurance",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 53,
+    "fields": {
+        "name": "Home & Renovation",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 54,
+    "fields": {
+        "name": "Digital Goods",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 55,
+    "fields": {
+        "name": "Utilities",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 56,
+    "fields": {
+        "name": "Beauty",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 57,
+    "fields": {
+        "name": "Sport",
+        "user": 4,
+        "is_system": false,
+        "created_at": "2025-08-26T15:16:09.304Z",
+        "updated_at": "2025-08-26T15:16:09.304Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 58,
+    "fields": {
+        "name": "Food",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 59,
+    "fields": {
+        "name": "Transport",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 60,
+    "fields": {
+        "name": "Salary",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 61,
+    "fields": {
+        "name": "Entertainment",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 62,
+    "fields": {
+        "name": "Health",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 63,
+    "fields": {
+        "name": "Clothing",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 64,
+    "fields": {
+        "name": "Investment",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 65,
+    "fields": {
+        "name": "Donations",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 66,
+    "fields": {
+        "name": "Insurance",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 67,
+    "fields": {
+        "name": "Home & Renovation",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 68,
+    "fields": {
+        "name": "Digital Goods",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 69,
+    "fields": {
+        "name": "Utilities",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 70,
+    "fields": {
+        "name": "Beauty",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 71,
+    "fields": {
+        "name": "Sport",
+        "user": 5,
+        "is_system": false,
+        "created_at": "2025-08-26T16:13:25.448Z",
+        "updated_at": "2025-08-26T16:13:25.448Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 72,
+    "fields": {
+        "name": "Food",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 73,
+    "fields": {
+        "name": "Transport",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 74,
+    "fields": {
+        "name": "Salary",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 75,
+    "fields": {
+        "name": "Entertainment",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 76,
+    "fields": {
+        "name": "Health",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 77,
+    "fields": {
+        "name": "Clothing",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 78,
+    "fields": {
+        "name": "Investment",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 79,
+    "fields": {
+        "name": "Donations",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 80,
+    "fields": {
+        "name": "Insurance",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 81,
+    "fields": {
+        "name": "Home & Renovation",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 82,
+    "fields": {
+        "name": "Digital Goods",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 83,
+    "fields": {
+        "name": "Utilities",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 84,
+    "fields": {
+        "name": "Beauty",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 85,
+    "fields": {
+        "name": "Sport",
+        "user": 6,
+        "is_system": false,
+        "created_at": "2025-08-26T17:19:09.380Z",
+        "updated_at": "2025-08-26T17:19:09.380Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 86,
+    "fields": {
+        "name": "Opening balance",
+        "user": 1,
+        "is_system": true,
+        "created_at": "2025-08-27T12:53:46.008Z",
+        "updated_at": "2025-08-27T12:53:46.008Z"
+    }
+},
+{
+    "model": "fin_mate.category",
+    "pk": 87,
+    "fields": {
+        "name": "Opening balance",
+        "user": 2,
+        "is_system": true,
+        "created_at": "2025-08-27T19:21:30.827Z",
+        "updated_at": "2025-08-27T19:21:30.827Z"
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 2,
+    "fields": {
+        "amount": "28500.00",
+        "type": "INCOME",
+        "account": 1,
+        "category": 3,
+        "date": "2025-08-24",
+        "description": "My salary"
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 3,
+    "fields": {
+        "amount": "500.00",
+        "type": "EXPENSE",
+        "account": 1,
+        "category": 7,
+        "date": "2025-08-24",
+        "description": ""
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 4,
+    "fields": {
+        "amount": "240.00",
+        "type": "EXPENSE",
+        "account": 2,
+        "category": 1,
+        "date": "2025-08-24",
+        "description": "buy some food"
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 5,
+    "fields": {
+        "amount": "520.00",
+        "type": "EXPENSE",
+        "account": 2,
+        "category": 4,
+        "date": "2025-08-24",
+        "description": "subscribe Netflix"
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 6,
+    "fields": {
+        "amount": "3120.00",
+        "type": "EXPENSE",
+        "account": 2,
+        "category": 12,
+        "date": "2025-08-24",
+        "description": ""
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 7,
+    "fields": {
+        "amount": "12000.00",
+        "type": "INCOME",
+        "account": 2,
+        "category": 12,
+        "date": "2025-08-24",
+        "description": "my salary"
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 8,
+    "fields": {
+        "amount": "900.00",
+        "type": "EXPENSE",
+        "account": 2,
+        "category": 5,
+        "date": "2025-08-24",
+        "description": ""
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 9,
+    "fields": {
+        "amount": "750.00",
+        "type": "EXPENSE",
+        "account": 2,
+        "category": 13,
+        "date": "2025-08-25",
+        "description": "Nails"
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 10,
+    "fields": {
+        "amount": "3000.00",
+        "type": "INCOME",
+        "account": 3,
+        "category": 7,
+        "date": "2025-08-26",
+        "description": "Parents donut"
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 11,
+    "fields": {
+        "amount": "430.00",
+        "type": "INCOME",
+        "account": 4,
+        "category": 7,
+        "date": "2025-08-26",
+        "description": ""
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 12,
+    "fields": {
+        "amount": "4325.00",
+        "type": "INCOME",
+        "account": 5,
+        "category": 60,
+        "date": "2025-08-26",
+        "description": ""
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 13,
+    "fields": {
+        "amount": "460.00",
+        "type": "EXPENSE",
+        "account": 5,
+        "category": 58,
+        "date": "2025-08-26",
+        "description": ""
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 14,
+    "fields": {
+        "amount": "4000.00",
+        "type": "EXPENSE",
+        "account": 1,
+        "category": 4,
+        "date": "2025-08-26",
+        "description": ""
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 15,
+    "fields": {
+        "amount": "9500.00",
+        "type": "EXPENSE",
+        "account": 1,
+        "category": 11,
+        "date": "2025-08-27",
+        "description": "New processor"
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 16,
+    "fields": {
+        "amount": "1400.00",
+        "type": "EXPENSE",
+        "account": 2,
+        "category": 1,
+        "date": "2025-08-27",
+        "description": ""
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 18,
+    "fields": {
+        "amount": "7000.00",
+        "type": "INCOME",
+        "account": 7,
+        "category": 86,
+        "date": "2025-08-27",
+        "description": "Initial balance"
+    }
+},
+{
+    "model": "fin_mate.transaction",
+    "pk": 19,
+    "fields": {
+        "amount": "5000.00",
+        "type": "INCOME",
+        "account": 8,
+        "category": 87,
+        "date": "2025-08-27",
+        "description": "Initial balance"
+    }
+},
+{
+    "model": "fin_mate.account",
+    "pk": 1,
+    "fields": {
+        "name": "Cash",
+        "currency": "UAH",
+        "user": 1,
+        "type": "CASH"
+    }
+},
+{
+    "model": "fin_mate.account",
+    "pk": 2,
+    "fields": {
+        "name": "Privat Bank",
+        "currency": "UAH",
+        "user": 1,
+        "type": "CARD"
+    }
+},
+{
+    "model": "fin_mate.account",
+    "pk": 3,
+    "fields": {
+        "name": "Monobank",
+        "currency": "UAH",
+        "user": 1,
+        "type": "CARD"
+    }
+},
+{
+    "model": "fin_mate.account",
+    "pk": 4,
+    "fields": {
+        "name": "Binance",
+        "currency": "USD",
+        "user": 1,
+        "type": "CRYPTO"
+    }
+},
+{
+    "model": "fin_mate.account",
+    "pk": 5,
+    "fields": {
+        "name": "Monobank",
+        "currency": "UAH",
+        "user": 5,
+        "type": "CARD"
+    }
+},
+{
+    "model": "fin_mate.account",
+    "pk": 7,
+    "fields": {
+        "name": "Savings",
+        "currency": "UAH",
+        "user": 1,
+        "type": "CASH"
+    }
+},
+{
+    "model": "fin_mate.account",
+    "pk": 8,
+    "fields": {
+        "name": "Cash",
+        "currency": "UAH",
+        "user": 2,
+        "type": "CASH"
+    }
+},
+{
+    "model": "fin_mate.budget",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "category": 1,
+        "limit": "4000.00",
+        "period": "2025-08-01",
+        "notes": ""
+    }
+},
+{
+    "model": "fin_mate.budget",
+    "pk": 2,
+    "fields": {
+        "user": 1,
+        "category": 1,
+        "limit": "4000.00",
+        "period": "2025-09-01",
+        "notes": ""
+    }
+},
+{
+    "model": "fin_mate.budget",
+    "pk": 3,
+    "fields": {
+        "user": 1,
+        "category": 4,
+        "limit": "2500.00",
+        "period": "2025-08-01",
+        "notes": ""
+    }
+},
+{
+    "model": "fin_mate.budget",
+    "pk": 4,
+    "fields": {
+        "user": 1,
+        "category": 12,
+        "limit": "3000.00",
+        "period": "2025-08-01",
+        "notes": ""
+    }
+},
+{
+    "model": "fin_mate.budget",
+    "pk": 5,
+    "fields": {
+        "user": 1,
+        "category": 13,
+        "limit": "3000.00",
+        "period": "2025-08-01",
+        "notes": ""
+    }
+},
+{
+    "model": "fin_mate.budget",
+    "pk": 6,
+    "fields": {
+        "user": 1,
+        "category": 5,
+        "limit": "2000.00",
+        "period": "2025-08-01",
+        "notes": ""
+    }
+},
+{
+    "model": "fin_mate.budget",
+    "pk": 7,
+    "fields": {
+        "user": 1,
+        "category": 1,
+        "limit": "4000.00",
+        "period": "2025-10-01",
+        "notes": ""
+    }
+},
+{
+    "model": "fin_mate.budget",
+    "pk": 8,
+    "fields": {
+        "user": 1,
+        "category": 1,
+        "limit": "4000.00",
+        "period": "2025-11-01",
+        "notes": ""
+    }
+},
+{
+    "model": "fin_mate.budget",
+    "pk": 10,
+    "fields": {
+        "user": 1,
+        "category": 11,
+        "limit": "10000.00",
+        "period": "2025-08-01",
+        "notes": ""
+    }
+},
+{
+    "model": "fin_mate.tag",
+    "pk": 1,
+    "fields": {
+        "user": 1,
+        "name": "Subscribes",
+        "color": "warning"
+    }
+},
+{
+    "model": "fin_mate.tag",
+    "pk": 2,
+    "fields": {
+        "user": 1,
+        "name": "Home",
+        "color": "success"
+    }
+},
+{
+    "model": "fin_mate.tag",
+    "pk": 3,
+    "fields": {
+        "user": 1,
+        "name": "Work",
+        "color": "danger"
+    }
+},
+{
+    "model": "fin_mate.tag",
+    "pk": 4,
+    "fields": {
+        "user": 1,
+        "name": "Travels",
+        "color": "secondary"
+    }
+},
+{
+    "model": "fin_mate.tag",
+    "pk": 5,
+    "fields": {
+        "user": 1,
+        "name": "Car",
+        "color": "info"
+    }
+},
+{
+    "model": "fin_mate.tag",
+    "pk": 6,
+    "fields": {
+        "user": 5,
+        "name": "Car",
+        "color": "info"
+    }
+},
+{
+    "model": "fin_mate.tag",
+    "pk": 7,
+    "fields": {
+        "user": 1,
+        "name": "Computer",
+        "color": "light"
+    }
+},
+{
+    "model": "fin_mate.transactiontag",
+    "pk": 1,
+    "fields": {
+        "transaction": 5,
+        "tag": 1,
+        "added_by": 1,
+        "created_at": "2025-08-24T11:18:50.447Z"
+    }
+},
+{
+    "model": "fin_mate.transactiontag",
+    "pk": 2,
+    "fields": {
+        "transaction": 6,
+        "tag": 2,
+        "added_by": 1,
+        "created_at": "2025-08-24T11:22:47.278Z"
+    }
+},
+{
+    "model": "fin_mate.transactiontag",
+    "pk": 3,
+    "fields": {
+        "transaction": 7,
+        "tag": 3,
+        "added_by": 1,
+        "created_at": "2025-08-24T11:23:47.152Z"
+    }
+},
+{
+    "model": "fin_mate.transactiontag",
+    "pk": 4,
+    "fields": {
+        "transaction": 14,
+        "tag": 4,
+        "added_by": 1,
+        "created_at": "2025-08-26T17:17:16.572Z"
+    }
+},
+{
+    "model": "fin_mate.transactiontag",
+    "pk": 5,
+    "fields": {
+        "transaction": 15,
+        "tag": 7,
+        "added_by": 1,
+        "created_at": "2025-08-27T10:45:45.123Z"
+    }
+}
+]

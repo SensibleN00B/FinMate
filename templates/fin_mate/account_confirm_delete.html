@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1 class="h3">Delete an account</h1>
+  <p>Are you sure you want to delete <strong>{{ object.name }}</strong>?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger">Delete</button>
+    <a class="btn btn-outline-secondary" href="{% url 'fin_mate:account-detail' object.pk %}">Cancel</a>
+  </form>
+{% endblock %}

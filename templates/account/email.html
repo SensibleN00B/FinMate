@@ -1,0 +1,89 @@
+{% extends "account/base.html" %}
+{% load i18n %}
+
+{% block head_title %}{% trans "Email Addresses" %}{% endblock %}
+
+{% block inner %}
+  <div class="row justify-content-center">
+    <div class="col-md-10 col-lg-8">
+
+      <!-- List & actions -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h1 class="h4 mb-3">{% trans "Email Addresses" %}</h1>
+
+          {% if emailaddresses %}
+            <form method="post" action="{% url 'account_email' %}">
+              {% csrf_token %}
+              <ul class="list-group mb-3">
+                {% for e in emailaddresses %}
+                  <li class="list-group-item d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2">
+                      <label>
+                        <input class="form-check-input m-0" type="radio" name="email" value="{{ e.email }}"
+                               {% if e.primary %}checked{% endif %}>
+                      </label>
+                      <span class="{% if e.primary %}fw-semibold{% endif %}">{{ e.email }}</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                      {% if e.primary %}<span class="badge text-bg-primary">{% trans "Primary" %}</span>{% endif %}
+                      {% if e.verified %}
+                        <span class="badge text-bg-success">{% trans "Verified" %}</span>
+                      {% else %}
+                        <span class="badge text-bg-warning">{% trans "Unverified" %}</span>
+                      {% endif %}
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+
+              <div class="d-flex flex-wrap gap-2">
+                <button class="btn btn-outline-primary" type="submit" name="action_primary">
+                  {% trans "Make Primary" %}
+                </button>
+                <button class="btn btn-outline-info" type="submit" name="action_send">
+                  {% trans "Re-send Verification" %}
+                </button>
+                <button class="btn btn-outline-danger" type="submit" name="action_remove"
+                        onclick="return confirm('{% trans 'Do you really want to remove the selected email address?' %}');">
+                  {% trans "Remove" %}
+                </button>
+              </div>
+            </form>
+          {% else %}
+            <div class="alert alert-secondary mb-0">
+              {% trans "You currently do not have any email addresses associated with your account." %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Add new -->
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="h5 mb-3">{% trans "Add Email Address" %}</h2>
+
+          {% if can_add_email %}
+            <form method="post" action="{% url 'account_email' %}">
+              {% csrf_token %}
+              <div class="input-group">
+                <label>
+                  <input class="form-control" type="email" name="email"
+                         placeholder="{% trans 'Email address' %}" required>
+                </label>
+                <button class="btn btn-primary" type="submit" name="action_add">
+                  {% trans "Add Email" %}
+                </button>
+              </div>
+            </form>
+          {% else %}
+            <div class="alert alert-secondary mb-0">
+              {% trans "You cannot add any more email addresses." %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}
