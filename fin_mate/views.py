@@ -33,7 +33,9 @@ from .services.budget_copy import copy_month
 from .services.budget_list import first_day, prev_month
 from .services.dashboard import month_summary
 from .services.dates import parse_period_or_today, month_range
+from .services.dates import parse_period_or_today, month_range
 from .services.mixins import UserOwnedQuerysetMixin
+from .services.account_service import create_account_with_balance
 
 
 class AccountListView(UserOwnedQuerysetMixin, ListView):
@@ -56,30 +58,9 @@ class AccountCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         try:
-            with transaction.atomic():
-                account = form.save(commit=False)
-                account.user = self.request.user
-                account.save()
-                starting_balance = form.cleaned_data.get("starting_balance") or Decimal("0")
-
-                if starting_balance > 0:
-                    opening_category, _ = Category.objects.get_or_create(
-                        user=self.request.user,
-                        name="Opening balance",
-                        defaults={"is_system": True},
-                    )
-                    if not opening_category.is_system:
-                        opening_category.is_system = True
-                        opening_category.save(update_fields=["is_system"])
-                    Transaction.objects.create(
-                        amount=starting_balance,
-                        type=Transaction.TransactionType.INCOME,
-                        account=account,
-                        category=opening_category,
-                        date=timezone.localdate(),
-                        description="Initial balance",
-                    )
-                self.object = account
+            account = form.save(commit=False)
+            starting_balance = form.cleaned_data.get("starting_balance")
+            self.object = create_account_with_balance(account, self.request.user, starting_balance)
 
         except IntegrityError:
             form.add_error("name", "Account with this name already exists for your user.")

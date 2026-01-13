@@ -77,7 +77,7 @@ class Transaction(models.Model):
         ]
         constraints = [
             models.CheckConstraint(
-                check=models.Q(amount__gt=0), name="transaction_gt_zero",
+                condition=models.Q(amount__gt=0), name="transaction_gt_zero",
                 violation_error_message=f"Transaction amount must be greater than zero"
             )
         ]
@@ -176,7 +176,7 @@ class Budget(models.Model):
             models.UniqueConstraint(
                 fields=["user", "category", "period"], name="uniq_user_category_period"
             ),
-            models.CheckConstraint(check=Q(limit__gt=0), name="budget_limit_gt_zero"),
+            models.CheckConstraint(condition=Q(limit__gt=0), name="budget_limit_gt_zero"),
         ]
         verbose_name_plural = "budgets"
 
